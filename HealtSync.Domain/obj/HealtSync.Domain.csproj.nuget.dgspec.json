@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Domain\\HealtSync.Domain.csproj": {}
+    "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Domain\\HealtSync.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Domain\\HealtSync.Domain.csproj": {
+    "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Domain\\HealtSync.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Domain\\HealtSync.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Domain\\HealtSync.Domain.csproj",
         "projectName": "HealtSync.Domain",
-        "projectPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Domain\\HealtSync.Domain.csproj",
+        "projectPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Domain\\HealtSync.Domain.csproj",
         "packagesPath": "C:\\Users\\YEURY-DCM\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Domain\\obj\\",
+        "outputPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\YEURY-DCM\\AppData\\Roaming\\NuGet\\NuGet.Config",

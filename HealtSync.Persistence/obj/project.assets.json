@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Persistence\\HealtSync.Persistence.csproj",
+      "projectUniqueName": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Persistence\\HealtSync.Persistence.csproj",
       "projectName": "HealtSync.Persistence",
-      "projectPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Persistence\\HealtSync.Persistence.csproj",
+      "projectPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Persistence\\HealtSync.Persistence.csproj",
       "packagesPath": "C:\\Users\\YEURY-DCM\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Persistence\\obj\\",
+      "outputPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Persistence\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\YEURY-DCM\\AppData\\Roaming\\NuGet\\NuGet.Config",

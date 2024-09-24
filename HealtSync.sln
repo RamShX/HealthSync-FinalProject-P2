@@ -6,12 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Backend", "Backend", "{3BA0919E-01F6-45C9-98F5-95E23F7F6D1B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrontEnd", "FrontEnd", "{A8323299-74FE-41FC-97C2-B57D367EE9F0}"
+	ProjectSection(SolutionItems) = preProject
+		Prueba.cs = Prueba.cs
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealtSync.Domain", "HealtSync.Domain\HealtSync.Domain.csproj", "{9E164F48-7601-4E6D-9DCA-1A0AEA59AFBC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealtSync.Domain", "HealtSync.Domain\HealtSync.Domain.csproj", "{9E164F48-7601-4E6D-9DCA-1A0AEA59AFBC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealtSync.Persistence", "HealtSync.Persistence\HealtSync.Persistence.csproj", "{548FD25D-95EB-447D-B21D-B70B9C5A0C52}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealtSync.Persistence", "HealtSync.Persistence\HealtSync.Persistence.csproj", "{548FD25D-95EB-447D-B21D-B70B9C5A0C52}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HealtSync.Infrastructure", "HealtSync.Infrastructure\HealtSync.Infrastructure.csproj", "{89DB34A7-1995-49F5-9218-B3C0EF331E44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HealtSync.Infrastructure", "HealtSync.Infrastructure\HealtSync.Infrastructure.csproj", "{89DB34A7-1995-49F5-9218-B3C0EF331E44}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

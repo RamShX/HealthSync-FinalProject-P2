@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Infrastructure\\HealtSync.Infrastructure.csproj",
+      "projectUniqueName": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Infrastructure\\HealtSync.Infrastructure.csproj",
       "projectName": "HealtSync.Infrastructure",
-      "projectPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Infrastructure\\HealtSync.Infrastructure.csproj",
+      "projectPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Infrastructure\\HealtSync.Infrastructure.csproj",
       "packagesPath": "C:\\Users\\YEURY-DCM\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\HealtSync\\HealtSync.Infrastructure\\obj\\",
+      "outputPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\YEURY-DCM\\AppData\\Roaming\\NuGet\\NuGet.Config",
