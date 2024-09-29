@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HealtSync.Domain.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace HealtSync.Domain.Entities.Users
 {
-    public class Patients
+    public class Patients : ActivatableEntity
     {
         public int PatientID { get; set; }
         public DateTime DateOfBirth { get; set; }
@@ -18,9 +19,6 @@ namespace HealtSync.Domain.Entities.Users
         public char BloodType { get; set; }
         public string Allergies { get; set; }
         public string InsuranceProviderID {  get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
-        public bool IsActive {  get; set; }
 
     }
 }
