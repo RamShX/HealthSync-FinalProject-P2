@@ -2,7 +2,7 @@
 
 namespace HealtSync.Domain.Entities.Appointments
 {
-    public sealed class appointmentsDoctorAvailability
+    public sealed class DoctorAvailability
     {
         public int AvailabilityID { get; set; }
         public int DoctorID { get; set; }

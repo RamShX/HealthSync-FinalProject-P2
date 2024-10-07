@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HealtSync.Persistence
-build_property.ProjectDir = C:\Users\YEURY-DCM\Desktop\Clases ITLA\2024-C3\Programación II\HealtSync\RamShX\HealthSync-FinalProject-P2\HealtSync.Persistence\
+build_property.ProjectDir = C:\Users\crist\source\repos\HealthSync Final Project\HealtSync.Persistence\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
