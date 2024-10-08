@@ -1,10 +1,14 @@
 ﻿using HealtSync.Domain.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 
 namespace HealtSync.Domain.Entities.Insurance
 {
+    [Table("InsuranceProviders", Schema = "Insurance")]
     public sealed class Providers : ActivatableEntity
     {
+        [Key]
         public int InsuranceProviderID { get; set; }
         public string? Name { get; set; }
         public string? ContactNumber { get; set; }

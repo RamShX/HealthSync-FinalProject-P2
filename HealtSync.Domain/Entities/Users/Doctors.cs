@@ -1,9 +1,13 @@
 ﻿using HealtSync.Domain.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealtSync.Domain.Entities.Users
 {
+    [Table("Doctors", Schema = "users")]
     public class Doctors : AuditableEntity
     {
+        [Key]
         public int DoctorID { get; set; }
         public int SpecialityID { get; set; }
         public string? LicenseNumber { get; set; }

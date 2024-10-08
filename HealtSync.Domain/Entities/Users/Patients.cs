@@ -1,9 +1,13 @@
 ﻿using HealtSync.Domain.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealtSync.Domain.Entities.Users
 {
+    [Table("Patients", Schema = "users") ]
     public class Patients : ActivatableEntity
     {
+        [Key]
         public int PatientID { get; set; }
         public DateTime DateOfBirth { get; set; }
         public char Gender { get; set; }
