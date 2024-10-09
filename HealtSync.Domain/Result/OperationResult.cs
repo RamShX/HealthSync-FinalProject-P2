@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HealtSync.Domain.Result
+﻿namespace HealtSync.Domain.Result
 {
-    internal class OperationResult
+    public class OperationResult
     {
+        public string? Messeage { get; set; }
+        public bool Success { get; set; }
+        public dynamic? Data { get; set; }
+        
+
     }
 }

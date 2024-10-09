@@ -1,15 +1,14 @@
 ﻿using HealtSync.Domain.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealtSync.Domain.Entities.Medical
 {
-    internal class AvailabilityModes : ActivatableEntity
+    [Table("AvailabilityModes", Schema = "medical")]
+    public class AvailabilityModes : ActivatableEntity
     {
+        [Key]
         public int AvailabilityModeID { get; set; }
-        public string AvailabilityMode { get; set; }}
+        public string? AvailabilityMode { get; set; }
     }
 }

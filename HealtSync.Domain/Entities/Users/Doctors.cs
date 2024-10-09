@@ -1,18 +1,17 @@
 ﻿using HealtSync.Domain.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealtSync.Domain.Entities.Users
 {
-    internal class Doctors : AuditableEntity
+    [Table("Doctors", Schema = "users")]
+    public class Doctors : AuditableEntity
     {
+        [Key]
         public int DoctorID { get; set; }
         public int SpecialityID { get; set; }
-        public string LicenseNumber { get; set; }
-        public string PhoneNumber { get; set; }
+        public string? LicenseNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public  int YearsOfExperiencie { get; set; }
         public string? Bio { get; set; }
         public string? ConsultationFee { get; set; }

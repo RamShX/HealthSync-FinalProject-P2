@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HealtSync.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+602ae85082e473fdeb2795d901f6ea437d42f2aa")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f1afa0de0691cc002198603a965bf4a93febf07a")]
 [assembly: System.Reflection.AssemblyProductAttribute("HealtSync.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HealtSync.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

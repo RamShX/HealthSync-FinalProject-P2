@@ -1,9 +1,14 @@
 ﻿
 
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
 namespace HealtSync.Domain.Entities.Appointments
 {
-    public sealed class appointmentsDoctorAvailability
+    [Table("DoctorAvailability", Schema = "appointment")]
+    public sealed class DoctorAvailability
     {
+        [Key]
         public int AvailabilityID { get; set; }
         public int DoctorID { get; set; }
         public DateTime AvailableDate { get; set; }

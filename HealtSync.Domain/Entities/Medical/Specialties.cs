@@ -1,17 +1,14 @@
 ﻿using HealtSync.Domain.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HealtSync.Domain.Entities.Medical
 {
-    internal class Specialties: ActivatableEntity
+    [Table("Specialties", Schema = "medical")]
+    public class Specialties: ActivatableEntity
     {
+        [Key]
         public int SpecialtyID { get; set; }
-        public string SpecialtyName { get; set; }
-
-
+        public string? SpecialtyName { get; set; }
     }
 }
