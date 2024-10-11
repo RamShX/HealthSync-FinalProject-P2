@@ -8,6 +8,6 @@ namespace HealtSync.Domain.Base
 {
     internal interface IContactable
     {
-        public string PhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
     }
 }
