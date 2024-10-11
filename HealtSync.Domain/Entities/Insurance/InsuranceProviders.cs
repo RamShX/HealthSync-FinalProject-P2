@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HealtSync.Domain.Entities.Insurance
 {
     [Table("InsuranceProviders", Schema = "Insurance")]
-    public sealed class Providers : ActivatableEntity
+    public sealed class InsuranceProviders : AuditableEntity, IActivatableEntity, IContactable
     {
         [Key]
         public int InsuranceProviderID { get; set; }
         public string? Name { get; set; }
-        public string? ContactNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public string? Email { get; set; }
         public string? Website { get; set; }
         public string? Address { get; set; }
@@ -26,5 +26,6 @@ namespace HealtSync.Domain.Entities.Insurance
         public string? CustomerSupportContact { get; set; }
         public string? AcceptedRegions { get; set; }
         public decimal? MaxCoverageAmount { get; set; }
+        public bool IsActive { get; set; }
     }
 }

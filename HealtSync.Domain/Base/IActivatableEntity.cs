@@ -2,7 +2,7 @@
 
 namespace HealtSync.Domain.Base
 {
-    public abstract class ActivatableEntity : AuditableEntity
+    public interface IActivatableEntity 
     {
         public bool IsActive { get; set; }
     }

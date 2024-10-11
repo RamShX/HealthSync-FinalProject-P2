@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HealtSync.Domain.Entities.Users
 {
     [Table("Doctors", Schema = "users")]
-    public class Doctors : AuditableEntity
+    public class Doctors : AuditableEntity, IContactable
     {
         [Key]
         public int DoctorID { get; set; }
