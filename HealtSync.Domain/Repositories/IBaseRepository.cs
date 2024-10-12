@@ -8,9 +8,9 @@ namespace HealtSync.Domain.Repositories
     {
         Task<OperationResult> Save (TEntity entity);
         Task<OperationResult> Update (TEntity entity);
-        Task<OperationResult> Delete(TEntity entity);
+        Task<OperationResult> Remove(TEntity entity);
         Task<OperationResult> GetAll ();
-        Task<OperationResult> GetEntittyBy (int id);
+        Task<OperationResult> GetEntityBy (int id);
         Task<OperationResult> Exists(Expression<Func<TEntity, bool>> filter);
     }
 }
