@@ -11,8 +11,7 @@ namespace HealtSync.Persistence.Context
     internal class HealtSyncContext : DbContext
     {
         public HealtSyncContext(DbContextOptions<HealtSyncContext> options) : base(options)
-        { 
-
+        {
         }
 
         #region *Appointments Entities*
