@@ -8,8 +8,12 @@ using HealtSync.Domain.Entities.Insurance;
 
 namespace HealtSync.Persistence.Context
 {
-    internal class HealtSyncContext : DbContext
-    {
+    public class HealtSyncContext : DbContext
+    { 
+        public HealtSyncContext()
+        {
+        }
+
         public HealtSyncContext(DbContextOptions<HealtSyncContext> options) : base(options)
         {
         }
