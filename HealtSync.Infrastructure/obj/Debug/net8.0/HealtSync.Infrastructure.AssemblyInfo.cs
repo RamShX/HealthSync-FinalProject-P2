@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HealtSync.Infrastructure")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a99c229228e092cfad3c0e8642f150da5131ecc7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7915ff8a23281935cfdc76c02366c8774184c086")]
 [assembly: System.Reflection.AssemblyProductAttribute("HealtSync.Infrastructure")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HealtSync.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
