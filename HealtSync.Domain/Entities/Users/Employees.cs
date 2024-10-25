@@ -11,6 +11,8 @@ namespace HealtSync.Domain.Entities.Users
     {
         [Key]
         public  int EmployeeID { get; set; }
+        
+        public int PersonID { get; set; }
         public int UserID { get; set; }
         public string? PhoneNumber { get; set; }
         public string? JobTitle { get; set; }

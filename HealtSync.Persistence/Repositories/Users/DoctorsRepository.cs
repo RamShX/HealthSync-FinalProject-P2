@@ -3,6 +3,7 @@ using HealtSync.Domain.Result;
 using HealtSync.Persistence.Base;
 using HealtSync.Persistence.Context;
 using HealtSync.Persistence.Interfaces.Users;
+using HealtSync.Persistence.Repositories.Validations;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Linq.Expressions;
@@ -11,10 +12,31 @@ using System.Runtime.CompilerServices;
 
 namespace HealtSync.Persistence.Repositories.Users
 {
-    public sealed class DoctorsRepository : BaseRepository<Doctors>, IDoctorsRepository
+    public sealed class DoctorsRepository : BaseRepository<Doctors>, IDoctorsRepository, IValidation<Doctors>
     {
         readonly HealtSyncContext _context = new();
         readonly ILogger<DoctorsRepository> _logger;
+
+        public  OperationResult ValidateEntity(Doctors doctor)
+        {
+            var validation = new Validation<Doctors>();
+
+            validation.ValidateNotNull(doctor, "El Doctor");
+            validation.ValidateNumber(doctor.DoctorID, "El ID del Doctor");
+            validation.ValidateNotNullOrEmpty(doctor.LicenseNumber!, "El número de licencia");
+            validation.ValidateNotNullOrEmpty(doctor.PhoneNumber!, "El número telefónico");
+            validation.ValidateNotNullOrEmpty(doctor.Education, "La educación");
+            validation.ValidateDate(doctor.LicenseExpirationDate, "La fecha de expiración de la licencia");
+            validation.ValidateDate(doctor.CreatedAt, "La fecha de creación");
+            validation.ValidateNumber(doctor.YearsOfExperiencie, "Los años de experiencia ");
+            validation.ValidateNumber(doctor.PersonID, "EL ID de la persona");
+            validation.ValidateNumber(doctor.UserID, "EL ID del Usuario es requerido");
+
+            return validation.IsValid
+              ? new OperationResult { Success = true }
+              : new OperationResult { Success = false, Message = string.Join(", ", validation.ErrorMessages) };
+
+        }
 
         public DoctorsRepository(HealtSyncContext context, ILogger<DoctorsRepository> logger) : base(context)
         {
@@ -24,74 +46,18 @@ namespace HealtSync.Persistence.Repositories.Users
 
         public async override Task<OperationResult> Save(Doctors entity)
         {
-            OperationResult result = new();
-
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad Doctor es requerida.";
-                return result;
-            }
-
-            if (entity.DoctorID < 0)
-            {
-                result.Success = false;
-                result.Message = "El ID del Doctor es requerido.";
-                return result;
-            }
-
-            if (entity.LicenseNumber.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de licencia es requerido.";
-                return result;
-            }
-
-            if (await base.Exists(doctor => doctor.LicenseNumber == entity.LicenseNumber))
-            {
-                result.Success = false;
-                result.Message = "Existe un doctor con esa licencia";
-                return result;
-            }
-
-            if (entity.PhoneNumber.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de teléfono es requerido.";
-                return result;
-            }
-
-            if (entity.YearsOfExperiencie < 0)
-            {
-                result.Success = false;
-                result.Message = "Los años de experiencia son requeridos";
-                return result;
-            }
-
-            if (entity.Education.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de licencia es requerido.";
-                return result;
-            }
-
-            if (entity.LicenseExpirationDate == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Expiración de la Licencia es requerida.";
-                return result;
-            }
-
-            if (entity.CreatedAt == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Creación es requerida.";
-                return result;
-            }
+            OperationResult result = ValidateEntity(entity);
 
             try
             {
+                if (await base.Exists(doctor => doctor.LicenseNumber == entity.LicenseNumber))
+                {
+                    result.Success = true;
+                    result.Message = "Ya esa persona está registrada";
+                    return result;
+                }
+            
+                  
                 await base.Save(entity);
             }
             catch (Exception ex)
@@ -109,61 +75,7 @@ namespace HealtSync.Persistence.Repositories.Users
         {
             OperationResult result = new();
 
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad Doctor es requerida.";
-                return result;
-            }
-
-            if (entity.DoctorID < 0)
-            {
-                result.Success = false;
-                result.Message = "El ID del Doctor es requerido.";
-                return result;
-            }
-
-            if (entity.LicenseNumber.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de licencia es requerido.";
-                return result;
-            }
-
-            if (await base.Exists(doctor => doctor.LicenseNumber == entity.LicenseNumber))
-            {
-                result.Success = false;
-                result.Message = "Existe un doctor con esa licencia";
-                return result;
-            }
-
-            if (entity.PhoneNumber.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de teléfono es requerido.";
-                return result;
-            }
-
-            if (entity.YearsOfExperiencie < 0)
-            {
-                result.Success = false;
-                result.Message = "Los años de experiencia son requeridos";
-                return result;
-            }
-
-            if (entity.Education.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de licencia es requerido.";
-                return result;
-            }
-
-            if (entity.LicenseExpirationDate == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Expiración de la Licencia es requerida.";
-                return result;
-            }
+            ValidateEntity(entity);
 
             if (entity.UpdatedAt == DateTime.MinValue)
             {
@@ -191,21 +103,29 @@ namespace HealtSync.Persistence.Repositories.Users
         {
             OperationResult result = new();
 
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad es requerida.";
-                return result;
-            }
-
             try
             {
+                if (entity == null)
+                {
+                    result.Success = false;
+                    result.Message = "La entidad es requerida.";
+                    return result;
+                }
+
+                if (!await base.Exists(doctor => doctor.LicenseNumber == entity.LicenseNumber))
+                {
+                    result.Success = true;
+                    result.Message = "Esa persona no está registrada";
+                    return result;
+                }
+
                 await base.Remove(entity);
             }
             catch (Exception ex)
             {
                 result.Success = false;
                 result.Message = "Ha ocurrido un error borrando el doctor";
+                _logger.LogError(result.Message, ex.ToString());
                 return result;
             }
 
@@ -216,7 +136,7 @@ namespace HealtSync.Persistence.Repositories.Users
         {
             OperationResult result = new();
 
-            if (id < 0)
+            if (id <= 0)
             {
                 result.Success = false;
                 result.Message = "Se Requiere el id";
@@ -227,14 +147,14 @@ namespace HealtSync.Persistence.Repositories.Users
             {
                 await base.GetEntityBy(id);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 result.Success = false;
                 result.Message = "No se pudo encontrar la entidad";
+                _logger.LogError(result.Message, ex.ToString());
                 return result;
+
             }
-
-
 
             return result;
         }

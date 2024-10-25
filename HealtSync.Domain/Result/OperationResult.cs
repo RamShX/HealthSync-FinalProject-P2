@@ -1,4 +1,4 @@
-﻿namespace HealtSync.Domain.Result
+﻿ 0  nxSJK;KJ m   namespace HealtSync.Domain.Result
 {
     public class OperationResult
     {

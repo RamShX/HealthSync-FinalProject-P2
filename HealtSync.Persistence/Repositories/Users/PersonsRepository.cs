@@ -4,6 +4,7 @@ using HealtSync.Persistence.Base;
 using HealtSync.Persistence.Context;
 using HealtSync.Persistence.Interfaces.Users;
 using Microsoft.Extensions.Logging;
+using HealtSync.Persistence.Repositories.Validations;
 using Microsoft.IdentityModel.Tokens;
 
 
@@ -20,56 +21,40 @@ namespace HealtSync.Persistence.Repositories.Users
             _logger = logger;
         }
 
+        //Handle Validations
+        private OperationResult ValidateEntity(Persons person)
+        {
+            var validation = new Validation<Persons>();
+            OperationResult result = new ();
+
+
+            validation.ValidateNotNull(person, "Persona");
+            validation.ValidateNumber(person.PersonID, "El ID de la persona");
+            validation.ValidateNotNullOrEmpty(person.FirstName!, "El nombre");
+            validation.ValidateNotNullOrEmpty(person.LastName!, "El apellido");
+            validation.ValidateDate(person.DateOfBirth, "La fecha de nacimiento");
+
+            return validation.IsValid 
+                ? new OperationResult { Success = true } 
+                : new OperationResult { Success = false, Message = string.Join(", ", validation.ErrorMessages) }; 
+        }
+
 
         public async override Task<OperationResult> Save(Persons entity)
         {
-            OperationResult result = new();
-
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad Persona es requerida.";
-                return result;
-            }
-
-            if (entity.PersonID < 0)
-            {
-                result.Success = false;
-                result.Message = "El ID de la Persona es requerido.";
-                return result;
-            }
-
-            if (entity.FirstName.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El nombre es requerido.";
-                return result;
-            }
-
-            if (entity.LastName.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El apellido es requerido.";
-                return result;
-            }
-
-            if (await base.Exists(person => person.IdentificationNumber == entity.IdentificationNumber))
-            {
-                result.Success = false;
-                result.Message = "Ya esa persona está registrada";
-                return result;
-            }
-
-            if (entity.DateOfBirth == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Nacimiento es requerida.";
-                return result;
-            }
+            OperationResult result = ValidateEntity(entity);
 
             try
             {
+
+                if (await base.Exists(person => person.IdentificationNumber == entity.IdentificationNumber))
+                {
+                    result.Success = true;
+                    result.Message = "Ya esa persona está registrada";
+                    return result;
+                }
+              
+
                 await base.Save(entity);
             }
             catch (Exception ex)
@@ -85,43 +70,10 @@ namespace HealtSync.Persistence.Repositories.Users
 
         public async override Task<OperationResult> Update(Persons entity)
         {
-            OperationResult result = new();
+            OperationResult result = ValidateEntity(entity);
 
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad Persona es requerida.";
+            if (!result.Success)
                 return result;
-            }
-
-            if (entity.PersonID < 0)
-            {
-                result.Success = false;
-                result.Message = "El ID de la Persona es requerido.";
-                return result;
-            }
-
-            if (entity.FirstName.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El nombre es requerido.";
-                return result;
-            }
-
-            if (entity.LastName.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El apellido es requerido.";
-                return result;
-            }
-
-            if (entity.DateOfBirth == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Nacimiento es requerida.";
-                return result;
-            }
 
             try
             {
@@ -149,6 +101,13 @@ namespace HealtSync.Persistence.Repositories.Users
                 return result;
             }
 
+            if (!await base.Exists(person => person.IdentificationNumber == entity.IdentificationNumber))
+            {
+                result.Success = false;
+                result.Message = "La entidad no existe";
+                return result;
+            }
+
             try
             {
                 await base.Remove(entity);
@@ -167,7 +126,7 @@ namespace HealtSync.Persistence.Repositories.Users
         {
             OperationResult result = new();
 
-            if (id < 0)
+            if (id <= 0)
             {
                 result.Success = false;
                 result.Message = "Se Requiere el id";
@@ -184,7 +143,6 @@ namespace HealtSync.Persistence.Repositories.Users
                 result.Message = "No se pudo encontrar la entidad";
                 return result;
             }
-
 
 
             return result;

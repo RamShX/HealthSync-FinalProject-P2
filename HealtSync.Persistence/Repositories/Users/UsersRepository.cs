@@ -4,15 +4,32 @@ using HealtSync.Persistence.Base;
 using HealtSync.Persistence.Context;
 using HealtSync.Persistence.Interfaces.Users;
 using Microsoft.Extensions.Logging;
+using HealtSync.Persistence.Repositories.Validations;
 using Microsoft.IdentityModel.Tokens;
 
 
 namespace HealtSync.Persistence.Repositories.Users
 {
-    public class UsersRepository: BaseRepository<Domain.Entities.Users.Users>, IUsersRepository
+    public class UsersRepository : BaseRepository<Domain.Entities.Users.Users>, IUsersRepository
     {
         readonly HealtSyncContext _context = new();
         readonly ILogger _logger;
+
+        private OperationResult ValidateEntity(Domain.Entities.Users.Users user)
+        {
+            var validation = new Validation<Domain.Entities.Users.Users>();
+
+            validation.ValidateNotNull(user, "El Usuario");
+            validation.ValidateNumber(user.UserID, "El ID del Usuario");
+            validation.ValidateNotNullOrEmpty(user.Email!, "El Email");
+            validation.ValidateNotNullOrEmpty(user.Password!, "La Contraseña");
+            validation.ValidateNumber(user.RoleID, "EL Rol");
+            validation.ValidateDate(user.CreatedAt, "Fecha de creación");
+
+            return validation.IsValid
+              ? new OperationResult { Success = true }
+              : new OperationResult { Success = false, Message = string.Join(", ", validation.ErrorMessages) };
+        }
 
         public UsersRepository(HealtSyncContext context, ILogger logger) : base(context)
         {
@@ -22,53 +39,17 @@ namespace HealtSync.Persistence.Repositories.Users
 
         public async override Task<OperationResult> Save(Domain.Entities.Users.Users entity)
         {
-            OperationResult result = new();
-
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad usuario es requerida.";
-                return result;
-            }
-
-            if (entity.UserID < 0)
-            {
-                result.Success = false;
-                result.Message = "El ID del los usuarios es requerido.";
-                return result;
-            }
-
-            if (entity.Email.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "La el EMail es requerido";
-                return result;
-            }
-
-            if (entity.Password.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "La Contraseña es requerida";
-                return result;
-            }
-
-            if (entity.CreatedAt == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Creación es requerida.";
-                return result;
-            }
-
-            if (entity.RoleID <= 0)
-            {
-                result.Success = false;
-                result.Message = "El Rol es requerido";
-                return result;
-            }
+            OperationResult result = ValidateEntity(entity);
 
             try
             {
+                if (await base.Exists(user => user.UserID == entity.UserID))
+                {
+                    result.Success = true;
+                    result.Message = "Ya este usuario está registrada";
+                    return result;
+                }
+
                 await base.Save(entity);
             }
             catch (Exception ex)
@@ -81,48 +62,12 @@ namespace HealtSync.Persistence.Repositories.Users
 
             return result;
 
-
         }
 
         public async override Task<OperationResult> Update(Domain.Entities.Users.Users entity)
         {
-            OperationResult result = new();
-
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad usuario es requerida.";
-                return result;
-            }
-
-            if (entity.UserID <= 0)
-            {
-                result.Success = false;
-                result.Message = "El ID del los usuarios es requerido.";
-                return result;
-            }
-
-            if (entity.Email.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "La el EMail es requerido";
-                return result;
-            }
-
-            if (entity.Password.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "La Contraseña es requerida";
-                return result;
-            }
-
-            if (entity.RoleID <= 0)
-            {
-                result.Success = false;
-                result.Message = "El Rol es requerido";
-                return result;
-            }
+            OperationResult result = ValidateEntity(entity);
+            ValidateEntity(entity);
 
             try
             {

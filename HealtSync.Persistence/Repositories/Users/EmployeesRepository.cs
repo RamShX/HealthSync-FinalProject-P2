@@ -2,15 +2,11 @@
 using HealtSync.Domain.Result;
 using HealtSync.Persistence.Base;
 using HealtSync.Persistence.Context;
+using HealtSync.Persistence.Repositories.Validations;
 using HealtSync.Persistence.Interfaces.Users;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace HealtSync.Persistence.Repositories.Users
 {
@@ -20,6 +16,27 @@ namespace HealtSync.Persistence.Repositories.Users
         readonly HealtSyncContext _context = new();
         readonly ILogger _logger;
 
+        private OperationResult ValidateEntity(Employees employee)
+        {
+            var validation = new Validation<Employees>();
+            OperationResult result = new();
+
+
+            validation.ValidateNotNull(employee, "El Empleado");
+            validation.ValidateNumber(employee.EmployeeID, "El ID del empleado");
+            validation.ValidateNotNullOrEmpty(employee.JobTitle!, "El titulo del empleo");
+            validation.ValidateNotNullOrEmpty(employee.PhoneNumber!, "El número telefónico");
+            validation.ValidateDate(employee.CreatedAt, "La fecha de creación");
+            validation.ValidateNumber(employee.PersonID, "El ID de Persona");
+
+
+            return validation.IsValid
+                ? new OperationResult { Success = true }
+                : new OperationResult { Success = false, Message = string.Join(", ", validation.ErrorMessages) };
+
+        }
+
+
         public EmployeesRepository(HealtSyncContext context, ILogger logger) : base(context) 
         {
             _context = context;
@@ -28,29 +45,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
         public async override Task<OperationResult> Save(Employees entity)
         {
-            OperationResult result = new();
-
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad Empleado es requerida.";
-                return result;
-            }
-
-            if (entity.EmployeeID < 0)
-            {
-                result.Success = false;
-                result.Message = "El ID del empleado es requerido.";
-                return result;
-            }
-
-            if (entity.JobTitle.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El  nombre del puesto es requerido";
-                return result;
-            }
+            OperationResult result = ValidateEntity(entity);
 
             if (await base.Exists(employee => employee.UserID == entity.UserID))
             {
@@ -58,31 +53,17 @@ namespace HealtSync.Persistence.Repositories.Users
                 result.Message = "Ya existe un empleado con ese usuario";
                 return result;
             }
-
-            if (entity.PhoneNumber.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de teléfono es requerido.";
-                return result;
-            }
-
-            if (entity.CreatedAt == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Creación es requerida.";
-                return result;
-            }
-
+               
             try
             {
                 await base.Save(entity);
             }
             catch (Exception ex)
             {
-                result.Message = "Ocurrio un error guardando el Doctor.";
                 result.Success = false;
-
+                result.Message = "Ha ocurrido un error guardando el empleado";
                 _logger.LogError(result.Message, ex.ToString());
+                return result;
             }
 
             return result;
@@ -90,50 +71,9 @@ namespace HealtSync.Persistence.Repositories.Users
 
         public async override Task<OperationResult> Update(Employees entity)
         {
-            OperationResult result = new();
+            OperationResult result = ValidateEntity(entity);
 
 
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad Empleado es requerida.";
-                return result;
-            }
-
-            if (entity.EmployeeID < 0)
-            {
-                result.Success = false;
-                result.Message = "El ID del empleado es requerido.";
-                return result;
-            }
-
-            if (entity.JobTitle.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El  nombre del puesto es requerido";
-                return result;
-            }
-
-            if (await base.Exists(employee => employee.UserID == entity.UserID))
-            {
-                result.Success = false;
-                result.Message = "Ya existe un empleado con ese usuario";
-                return result;
-            }
-
-            if (entity.PhoneNumber.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de teléfono es requerido.";
-                return result;
-            }
-
-            if (entity.CreatedAt == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Creación es requerida.";
-                return result;
-            }
 
             try
             {
@@ -141,10 +81,10 @@ namespace HealtSync.Persistence.Repositories.Users
             }
             catch (Exception ex)
             {
-                result.Message = "Ocurrio un error guardando el Doctor.";
                 result.Success = false;
-
+                result.Message = "Ha ocurrido un error guardando el empleado";
                 _logger.LogError(result.Message, ex.ToString());
+                return result;
             }
 
             return result;
@@ -160,7 +100,14 @@ namespace HealtSync.Persistence.Repositories.Users
                 result.Message = "La entidad es requerida.";
                 return result;
             }
-             
+
+            if (!await base.Exists(employee => employee.EmployeeID == entity.EmployeeID))
+            {
+                result.Success = true;
+                result.Message = "Ese empleado no está registrada";
+                return result;
+            }
+
             try
             {
                 await base.Remove(entity);
@@ -168,8 +115,9 @@ namespace HealtSync.Persistence.Repositories.Users
             catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = "Ha ocurrido un error borrando el doctor";
-                return result; 
+                result.Message = "Ha ocurrido un error borrando el el empleado";
+                _logger.LogError(result.Message, ex.ToString());
+                return result;
             }
 
             return result;
@@ -190,10 +138,11 @@ namespace HealtSync.Persistence.Repositories.Users
             {
                 await base.GetEntityBy(id);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = "No se pudo encontrar la entidad";
+                result.Message = "Ha ocurrido un error obteniendo el empleado";
+                _logger.LogError(result.Message, ex.ToString());
                 return result;
             }
 
@@ -212,13 +161,12 @@ namespace HealtSync.Persistence.Repositories.Users
             catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = "Ocurrió un error obteniendo los datos.";
-                _logger.LogError(result.Message, ex);
+                result.Message = "Ha ocurrido un obteniendo los Empleados";
+                _logger.LogError(result.Message, ex.ToString());
+                return result;
             }
             return result;
         }
     
-
-
     }
 }

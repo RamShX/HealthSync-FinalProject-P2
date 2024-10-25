@@ -4,16 +4,37 @@ using HealtSync.Domain.Result;
 using HealtSync.Persistence.Base;
 using HealtSync.Persistence.Context;
 using HealtSync.Persistence.Interfaces.Users;
+using HealtSync.Persistence.Repositories.Validations;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 
 namespace HealtSync.Persistence.Repositories.Users
 {
-    public class PatientsRepository : BaseRepository<Patients>, IPatientsRepository
+    public class PatientsRepository : BaseRepository<Patients>, IPatientsRepository, IValidation<Patients>
     {
         readonly HealtSyncContext _context = new();
         readonly ILogger _logger;
+
+        public OperationResult ValidateEntity(Patients patient)
+        {
+            var validation = new Validation<Patients>();
+
+            validation.ValidateNotNull(patient, "El Paciente");
+            validation.ValidateNumber(patient.PatientID, "El ID del paciente");
+            validation.ValidateNotNullOrEmpty(patient.Address!, "La Dirección");
+            validation.ValidateNotNullOrEmpty(patient.PhoneNumber!, "El número telefónico");
+            validation.ValidateNotNullOrEmpty(patient.EmergencyContactName!, "El nombre del contacto de emergencia");
+            validation.ValidateNotNullOrEmpty(patient.EmergencyContactPhone!, "El nombre del contacto de emergencia");
+            validation.ValidateNotNullOrEmpty(patient.Allergies!, "La alergia ");
+            validation.ValidateDate(patient.CreatedAt, "La fecha de creación");
+
+
+            return validation.IsValid
+              ? new OperationResult { Success = true }
+              : new OperationResult { Success = false, Message = string.Join(", ", validation.ErrorMessages) };
+
+        }
 
         public PatientsRepository(HealtSyncContext context, ILogger logger) : base(context)
         {
@@ -21,71 +42,15 @@ namespace HealtSync.Persistence.Repositories.Users
             _logger = logger;
         }
 
+
         public async override Task<OperationResult> Save(Patients entity)
         {
             OperationResult result = new();
 
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad Empleado es requerida.";
-                return result;
-            }
-
-            if (entity.PatientID< 0)
-            {
-                result.Success = false;
-                result.Message = "El ID del paciente es requerido.";
-                return result;
-            }
-
-            if (entity.Address.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "La dirección es requerida";
-                return result;
-            }
-
-            if (await base.Exists(patient => patient.UserID == entity.UserID))
+            if (await base.Exists(patient => patient.PatientID == entity.PatientID))
             {
                 result.Success = false;
                 result.Message = "Ya existe un paciente con ese usuario";
-                return result;
-            }
-
-            if (entity.PhoneNumber.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de teléfono es requerido.";
-                return result;
-            }
-
-            if (entity.EmergencyContactName.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El nombre del contaxto de emergencia es requerido.";
-                return result;
-            }
-
-            if (entity.EmergencyContactPhone.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de emergencia es requerido.";
-                return result;
-            }
-
-            if (entity.CreatedAt == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Creación es requerida.";
-                return result;
-            }
-
-            if (entity.Allergies.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "La  alergia es requerida.";
                 return result;
             }
 
@@ -107,63 +72,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
         public async override Task<OperationResult> Update(Patients entity)
         {
-            OperationResult result = new();
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad Empleado es requerida.";
-                return result;
-            }
-
-            if (entity.PatientID < 0)
-            {
-                result.Success = false;
-                result.Message = "El ID del paciente es requerido.";
-                return result;
-            }
-
-            if (entity.Address.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "La dirección es requerida";
-                return result;
-            }
-
-            if (entity.PhoneNumber.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de teléfono es requerido.";
-                return result;
-            }
-
-            if (entity.EmergencyContactName.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El nombre del contaxto de emergencia es requerido.";
-                return result;
-            }
-
-            if (entity.EmergencyContactPhone.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "El número de emergencia es requerido.";
-                return result;
-            }
-
-            if (entity.CreatedAt == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Creación es requerida.";
-                return result;
-            }
-
-            if (entity.Allergies.IsNullOrEmpty())
-            {
-                result.Success = false;
-                result.Message = "La  alergia es requerida.";
-                return result;
-            }
+            OperationResult result = ValidateEntity(entity);
 
             try
             {
@@ -209,7 +118,7 @@ namespace HealtSync.Persistence.Repositories.Users
         {
             OperationResult result = new();
 
-            if (id < 0)
+            if (id <= 0)
             {
                 result.Success = false;
                 result.Message = "Se Requiere el id";
@@ -247,6 +156,7 @@ namespace HealtSync.Persistence.Repositories.Users
             }
             return result;
         }
-
     }
+
 }
+

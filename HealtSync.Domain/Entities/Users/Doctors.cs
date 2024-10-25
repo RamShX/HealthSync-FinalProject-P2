@@ -10,6 +10,7 @@ namespace HealtSync.Domain.Entities.Users
         [Key]
         public int DoctorID { get; set; }
         public int UserID { get; set; }
+        public int PersonID { get; set; }
         public int SpecialityID { get; set; }
         public string Education { get; set; }
         public string? LicenseNumber { get; set; }
