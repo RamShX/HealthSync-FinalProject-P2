@@ -9,10 +9,13 @@ using HealtSync.Domain.Entities.Insurance;
 namespace HealtSync.Persistence.Context
 {
     public class HealtSyncContext : DbContext
-    {
-        public HealtSyncContext(DbContextOptions<HealtSyncContext> options) : base(options)
-        { 
+    { 
+        public HealtSyncContext()
+        {
+        }
 
+        public HealtSyncContext(DbContextOptions<HealtSyncContext> options) : base(options)
+        {
         }
 
         #region *Appointments Entities*

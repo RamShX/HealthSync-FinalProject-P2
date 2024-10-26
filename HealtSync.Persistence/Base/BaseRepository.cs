@@ -16,23 +16,9 @@ namespace HealtSync.Persistence.Base
             _healtSyncContext = healtSyncContext;
             _entities = _healtSyncContext.Set<TEntity>();
         }
-        public virtual async Task<OperationResult> Exists(Expression<Func<TEntity, bool>> filter)
+        public virtual async Task<bool> Exists(Expression<Func<TEntity, bool>> filter)
         {
-            OperationResult result = new OperationResult();
-
-            try
-            {
-                var exists = await _entities.FindAsync(filter);
-                result.Data = exists;
-
-            }
-            catch (Exception ex)
-            {
-                result.Success = false;
-                result.Message = $"Ocurrió un error obteniendo verificando el registrio: {ex}";
-            }
-
-            return result;
+            return await _entities.AnyAsync(filter);
         }
 
         public virtual async Task<OperationResult> GetAll()
@@ -66,7 +52,7 @@ namespace HealtSync.Persistence.Base
             catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = $"Ocurrió el error: {ex} verificando que existe el registro";
+                result.Message = $"Ocurrió el error: {ex} obteniendo la entidad.";
             }
 
             return result;
@@ -125,5 +111,6 @@ namespace HealtSync.Persistence.Base
 
             return result;
         }
+
     }
 }
