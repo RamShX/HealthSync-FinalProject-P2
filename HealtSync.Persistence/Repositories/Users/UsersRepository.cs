@@ -40,6 +40,8 @@ namespace HealtSync.Persistence.Repositories.Users
         public async override Task<OperationResult> Save(Domain.Entities.Users.Users entity)
         {
             OperationResult result = ValidateEntity(entity);
+            if (!result.Success) 
+                return result;
 
             try
             {
@@ -67,7 +69,9 @@ namespace HealtSync.Persistence.Repositories.Users
         public async override Task<OperationResult> Update(Domain.Entities.Users.Users entity)
         {
             OperationResult result = ValidateEntity(entity);
-            ValidateEntity(entity);
+
+            if (!result.Success)
+                return result;
 
             try
             {

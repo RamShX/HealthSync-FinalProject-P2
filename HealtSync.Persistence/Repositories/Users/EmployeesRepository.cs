@@ -5,7 +5,7 @@ using HealtSync.Persistence.Context;
 using HealtSync.Persistence.Repositories.Validations;
 using HealtSync.Persistence.Interfaces.Users;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
+
 
 
 namespace HealtSync.Persistence.Repositories.Users
