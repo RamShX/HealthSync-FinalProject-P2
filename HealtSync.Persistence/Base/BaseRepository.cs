@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace HealtSync.Persistence.Base
 {
-    abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
+    public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class
     {
         private readonly HealtSyncContext _healtSyncContext;
         private DbSet<TEntity> _entities;
@@ -108,7 +108,7 @@ namespace HealtSync.Persistence.Base
             return result;
         }
 
-        public async Task<OperationResult> Update(TEntity entity)
+        public virtual async Task<OperationResult> Update(TEntity entity)
         {
             OperationResult result = new OperationResult();
 

@@ -8,7 +8,7 @@ using HealtSync.Domain.Entities.Insurance;
 
 namespace HealtSync.Persistence.Context
 {
-    internal class HealtSyncContext : DbContext
+    public class HealtSyncContext : DbContext
     {
         public HealtSyncContext(DbContextOptions<HealtSyncContext> options) : base(options)
         { 
@@ -16,7 +16,7 @@ namespace HealtSync.Persistence.Context
         }
 
         #region *Appointments Entities*
-        public DbSet<Appointments> Appointments { get; set; }
+        public DbSet<Appointment> Appointments { get; set; }
         public DbSet<DoctorAvailability> DoctorAvailability { get; set; }
         #endregion
 
@@ -32,7 +32,7 @@ namespace HealtSync.Persistence.Context
 
         #endregion
 
-        #region *System Entities*
+        #region *System Entities* 
         public DbSet<Notifications> Notifications { get; set; }
         public DbSet<Roles> Roles { get; set; }
         public DbSet<Status> Statuses { get; set; }

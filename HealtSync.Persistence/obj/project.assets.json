@@ -2677,19 +2677,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\YEURY-DCM\\.nuget\\packages\\": {}
+    "C:\\Users\\crist\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Persistence\\HealtSync.Persistence.csproj",
+      "projectUniqueName": "C:\\Users\\crist\\source\\repos\\HealthSync Final Project\\HealtSync.Persistence\\HealtSync.Persistence.csproj",
       "projectName": "HealtSync.Persistence",
-      "projectPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Persistence\\HealtSync.Persistence.csproj",
-      "packagesPath": "C:\\Users\\YEURY-DCM\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Persistence\\obj\\",
+      "projectPath": "C:\\Users\\crist\\source\\repos\\HealthSync Final Project\\HealtSync.Persistence\\HealtSync.Persistence.csproj",
+      "packagesPath": "C:\\Users\\crist\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\crist\\source\\repos\\HealthSync Final Project\\HealtSync.Persistence\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\YEURY-DCM\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\crist\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2704,8 +2709,8 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Domain\\HealtSync.Domain.csproj": {
-              "projectPath": "C:\\Users\\YEURY-DCM\\Desktop\\Clases ITLA\\2024-C3\\Programación II\\HealtSync\\RamShX\\HealthSync-FinalProject-P2\\HealtSync.Domain\\HealtSync.Domain.csproj"
+            "C:\\Users\\crist\\source\\repos\\HealthSync Final Project\\HealtSync.Domain\\HealtSync.Domain.csproj": {
+              "projectPath": "C:\\Users\\crist\\source\\repos\\HealthSync Final Project\\HealtSync.Domain\\HealtSync.Domain.csproj"
             }
           }
         }
@@ -2750,7 +2755,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.403/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
