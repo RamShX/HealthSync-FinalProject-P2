@@ -24,7 +24,7 @@ namespace HealtSync.Persistence.Repositories.System
             var validation = new Validation<Roles>();
 
             validation.ValidateNotNull(role, "El Rol");
-            validation.ValidateNotNullOrEmpty(role.RoleName, "El Nombre del Rol");
+            validation.ValidateNotNullOrEmpty(role.RoleName!, "El Nombre del Rol");
             validation.ValidateDate(role.CreatedAt, "La Fecha de Creación");
 
             return validation.IsValid

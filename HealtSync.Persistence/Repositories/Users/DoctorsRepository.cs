@@ -22,7 +22,7 @@ namespace HealtSync.Persistence.Repositories.Users
             validation.ValidateNumber(doctor.DoctorID, "El ID del Doctor");
             validation.ValidateNotNullOrEmpty(doctor.LicenseNumber!, "El número de licencia");
             validation.ValidateNotNullOrEmpty(doctor.PhoneNumber!, "El número telefónico");
-            validation.ValidateNotNullOrEmpty(doctor.Education, "La educación");
+            validation.ValidateNotNullOrEmpty(doctor.Education!, "La educación");
             validation.ValidateDate(doctor.LicenseExpirationDate, "La fecha de expiración de la licencia");
             validation.ValidateDate(doctor.CreatedAt, "La fecha de creación");
             validation.ValidateNumber(doctor.YearsOfExperiencie, "Los años de experiencia ");

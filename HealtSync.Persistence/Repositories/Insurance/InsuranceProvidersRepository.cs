@@ -16,7 +16,7 @@ namespace HealtSync.Persistence.Repositories.Insurance
     {
         private readonly HealtSyncContext _healtSyncContext = healtSyncContext;
         private readonly ILogger<IInsuranceProviders> logger = logger;
-        public async override Task<OperationResult> Exists(Expression<Func<InsuranceProviders, bool>> filter)
+        public async override Task<bool> Exists(Expression<Func<InsuranceProviders, bool>> filter)
         {
             OperationResult operationResult = new OperationResult();
 
@@ -33,7 +33,7 @@ namespace HealtSync.Persistence.Repositories.Insurance
                 logger.LogError(operationResult.Message, ex.ToString());
             }
 
-            return operationResult;
+            return operationResult.Data;
         }
 
         public async override Task<OperationResult> Remove(InsuranceProviders entity)
