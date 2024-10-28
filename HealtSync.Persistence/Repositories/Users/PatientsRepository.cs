@@ -115,6 +115,7 @@ namespace HealtSync.Persistence.Repositories.Users
             {
                 result.Success = false;
                 result.Message = "Ha ocurrido un error borrando el doctor";
+                _logger.LogError(result.Message, ex.ToString());
                 return result;
             }
 
@@ -136,10 +137,11 @@ namespace HealtSync.Persistence.Repositories.Users
             {
                 await base.GetEntityBy(id);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 result.Success = false;
                 result.Message = "No se pudo encontrar la entidad";
+                _logger.LogError(result.Message, ex.ToString());
                 return result;
             }
 

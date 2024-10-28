@@ -16,7 +16,7 @@ namespace HealtSync.Persistence.Repositories.Insurance
         private readonly ILogger<NetworkTypeRepository> logger = logger;
         private readonly HealtSyncContext _healtSyncContext = healtSyncContext;
 
-        public async override Task<OperationResult> Exists(Expression<Func<NetworkType, bool>> filter)
+        public async override Task<bool> Exists(Expression<Func<NetworkType, bool>> filter)
         {
             OperationResult operationResult = new OperationResult();
 
@@ -33,7 +33,7 @@ namespace HealtSync.Persistence.Repositories.Insurance
                 logger.LogError(operationResult.Message, ex.ToString());
             }
 
-            return operationResult;
+            return operationResult.Data;
         }
 
         public async override Task<OperationResult> Remove(NetworkType entity)

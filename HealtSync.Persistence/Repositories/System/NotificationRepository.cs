@@ -57,12 +57,8 @@ namespace HealtSync.Persistence.Repositories.Users
             OperationResult result = ValidateEntity(entity);
             if (!result.Success)
                 return result;
-            if (entity.UpdatedAt == DateTime.MinValue)
-            {
-                result.Success = false;
-                result.Message = "La Fecha de Actualización es requerida.";
-                return result;
-            }
+         
+            
             try
             {
                 await base.Update(entity);
