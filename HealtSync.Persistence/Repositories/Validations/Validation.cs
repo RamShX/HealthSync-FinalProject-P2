@@ -4,17 +4,7 @@ namespace HealtSync.Persistence.Repositories.Validations
 {
     public class Validation<TClass>
     {
-        /*
-        List<bool> ErrorCases { get; set; } = new List<bool>();
-
-        public void AddErrorCase(bool errorCases, string message)
-        {
-            ErrorCases.Add(errorCases);
-        }
-
-        public void Validate
-        */
-
+       
         private readonly List<string> _errorsMessages = new List<string>();
         public IReadOnlyList<string> ErrorMessages => _errorsMessages;
 
@@ -48,5 +38,13 @@ namespace HealtSync.Persistence.Repositories.Validations
             if (date == DateTime.MinValue)
                 AddError($"{fieldName} es requerida.");
         }
+
+        public void ValidateDate(DateTime? date, string fieldName)
+        {
+            if (date == DateTime.MinValue)
+                AddError($"{fieldName} es requerida.");
+        }
+
+
     }
 }

@@ -5,9 +5,6 @@ using HealtSync.Persistence.Context;
 using HealtSync.Persistence.Interfaces.Users;
 using HealtSync.Persistence.Repositories.Validations;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
 
 
 namespace HealtSync.Persistence.Repositories.Users
@@ -48,6 +45,9 @@ namespace HealtSync.Persistence.Repositories.Users
         {
             OperationResult result = ValidateEntity(entity);
 
+            if (!result.Success)
+                return result;
+
             try
             {
                 if (await base.Exists(doctor => doctor.LicenseNumber == entity.LicenseNumber))
@@ -73,9 +73,10 @@ namespace HealtSync.Persistence.Repositories.Users
 
         public async override Task<OperationResult> Update(Doctors entity)
         {
-            OperationResult result = new();
+            OperationResult result = ValidateEntity(entity);
 
-            ValidateEntity(entity);
+            if (!result.Success)
+                return result;
 
             if (entity.UpdatedAt == DateTime.MinValue)
             {
@@ -102,6 +103,7 @@ namespace HealtSync.Persistence.Repositories.Users
         public async override Task<OperationResult> Remove(Doctors entity)
         {
             OperationResult result = new();
+
 
             try
             {

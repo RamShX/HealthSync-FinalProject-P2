@@ -44,6 +44,8 @@ namespace HealtSync.Persistence.Repositories.Users
         {
             OperationResult result = ValidateEntity(entity);
 
+            if (!result.Success)
+                return result;
             try
             {
 

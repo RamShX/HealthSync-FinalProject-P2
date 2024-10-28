@@ -45,7 +45,10 @@ namespace HealtSync.Persistence.Repositories.Users
 
         public async override Task<OperationResult> Save(Patients entity)
         {
-            OperationResult result = new();
+            OperationResult result = ValidateEntity(entity);
+
+            if (!result.Success)
+                return result;
 
             if (await base.Exists(patient => patient.PatientID == entity.PatientID))
             {
@@ -73,6 +76,10 @@ namespace HealtSync.Persistence.Repositories.Users
         public async override Task<OperationResult> Update(Patients entity)
         {
             OperationResult result = ValidateEntity(entity);
+
+            if (!result.Success)
+                return result;
+
 
             try
             {

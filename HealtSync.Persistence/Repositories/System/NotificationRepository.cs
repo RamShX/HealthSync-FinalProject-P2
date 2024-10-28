@@ -1,143 +1,119 @@
-﻿using HealtSync.Domain.Entities.Users;
+﻿using HealtSync.Domain.Entities.System;
 using HealtSync.Domain.Result;
 using HealtSync.Persistence.Base;
 using HealtSync.Persistence.Context;
-using HealtSync.Persistence.Repositories.Validations;
+using HealtSync.Persistence.Interfaces.System;
 using HealtSync.Persistence.Interfaces.Users;
+using HealtSync.Persistence.Repositories.Validations;
 using Microsoft.Extensions.Logging;
-
-
 
 namespace HealtSync.Persistence.Repositories.Users
 {
-    internal class EmployeesRepository : BaseRepository<Employees>, IEmployeesRepository
+    public sealed class NotificationsRepository : BaseRepository<Notifications>, INotificationsRepository, IValidation<Notifications>
     {
-
         readonly HealtSyncContext _context = new();
-        readonly ILogger _logger;
+        readonly ILogger<NotificationsRepository> _logger;
 
-        private OperationResult ValidateEntity(Employees employee)
+        public OperationResult ValidateEntity(Notifications notification)
         {
-            var validation = new Validation<Employees>();
-            OperationResult result = new();
-
-
-            validation.ValidateNotNull(employee, "El Empleado");
-            validation.ValidateNumber(employee.EmployeeID, "El ID del empleado");
-            validation.ValidateNotNullOrEmpty(employee.JobTitle!, "El titulo del empleo");
-            validation.ValidateNotNullOrEmpty(employee.PhoneNumber!, "El número telefónico");
-            validation.ValidateDate(employee.CreatedAt, "La fecha de creación");
-            validation.ValidateNumber(employee.PersonID, "El ID de Persona");
-
+            var validation = new Validation<Notifications>();
+            validation.ValidateNotNull(notification, "La Notificación");
+            validation.ValidateNumber(notification.NotificationID, "El ID de la Notificación");
+            validation.ValidateNumber(notification.UserID, "El ID del Usuario");
+            validation.ValidateNotNullOrEmpty(notification.Message!, "El mensaje");
+            validation.ValidateDate(notification.SentAt, "La fecha de envío");
 
             return validation.IsValid
                 ? new OperationResult { Success = true }
                 : new OperationResult { Success = false, Message = string.Join(", ", validation.ErrorMessages) };
-
         }
 
-
-        public EmployeesRepository(HealtSyncContext context, ILogger logger) : base(context) 
+        public NotificationsRepository(HealtSyncContext context, ILogger<NotificationsRepository> logger) : base(context)
         {
             _context = context;
             _logger = logger;
         }
 
-        public async override Task<OperationResult> Save(Employees entity)
+        public async override Task<OperationResult> Save(Notifications entity)
         {
             OperationResult result = ValidateEntity(entity);
-
             if (!result.Success)
                 return result;
-
-            if (await base.Exists(employee => employee.UserID == entity.UserID))
-            {
-                result.Success = false;
-                result.Message = "Ya existe un empleado con ese usuario";
-                return result;
-            }
-               
             try
             {
                 await base.Save(entity);
             }
             catch (Exception ex)
             {
+                result.Message = "Ocurrió un error guardando la Notificación.";
                 result.Success = false;
-                result.Message = "Ha ocurrido un error guardando el empleado";
                 _logger.LogError(result.Message, ex.ToString());
-                return result;
             }
-
             return result;
         }
 
-        public async override Task<OperationResult> Update(Employees entity)
+        public async override Task<OperationResult> Update(Notifications entity)
         {
             OperationResult result = ValidateEntity(entity);
-
             if (!result.Success)
                 return result;
-
+            if (entity.UpdatedAt == DateTime.MinValue)
+            {
+                result.Success = false;
+                result.Message = "La Fecha de Actualización es requerida.";
+                return result;
+            }
             try
             {
                 await base.Update(entity);
             }
             catch (Exception ex)
             {
+                result.Message = "Ocurrió un error actualizando la Notificación.";
                 result.Success = false;
-                result.Message = "Ha ocurrido un error guardando el empleado";
                 _logger.LogError(result.Message, ex.ToString());
-                return result;
             }
-
             return result;
         }
 
-        public async override Task<OperationResult> Remove(Employees entity)
-        { 
+        public async override Task<OperationResult> Remove(Notifications entity)
+        {
             OperationResult result = new();
-
-            if (entity == null)
-            {
-                result.Success = false;
-                result.Message = "La entidad es requerida.";
-                return result;
-            }
-
-            if (!await base.Exists(employee => employee.EmployeeID == entity.EmployeeID))
-            {
-                result.Success = true;
-                result.Message = "Ese empleado no está registrada";
-                return result;
-            }
-
             try
             {
+                if (entity == null)
+                {
+                    result.Success = false;
+                    result.Message = "La entidad es requerida.";
+                    return result;
+                }
+                if (!await base.Exists(notification => notification.NotificationID == entity.NotificationID))
+                {
+                    result.Success = true;
+                    result.Message = "Esa notificación no está registrada";
+                    return result;
+                }
                 await base.Remove(entity);
             }
             catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = "Ha ocurrido un error borrando el el empleado";
+                result.Message = "Ha ocurrido un error borrando la notificación";
                 _logger.LogError(result.Message, ex.ToString());
                 return result;
             }
-
             return result;
         }
 
         public async override Task<OperationResult> GetEntityBy(int id)
         {
             OperationResult result = new();
-
-            if (id < 0)
+            if (id <= 0)
             {
                 result.Success = false;
-                result.Message = "Se Requiere el id";
+                result.Message = "Se requiere el ID";
                 return result;
             }
-
             try
             {
                 await base.GetEntityBy(id);
@@ -145,19 +121,15 @@ namespace HealtSync.Persistence.Repositories.Users
             catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = "Ha ocurrido un error obteniendo el empleado";
+                result.Message = "No se pudo encontrar la entidad";
                 _logger.LogError(result.Message, ex.ToString());
-                return result;
             }
-
-
-
             return result;
         }
+
         public async override Task<OperationResult> GetAll()
         {
             OperationResult result = new();
-
             try
             {
                 await base.GetAll();
@@ -165,12 +137,10 @@ namespace HealtSync.Persistence.Repositories.Users
             catch (Exception ex)
             {
                 result.Success = false;
-                result.Message = "Ha ocurrido un obteniendo los Empleados";
-                _logger.LogError(result.Message, ex.ToString());
-                return result;
+                result.Message = "Ocurrió un error obteniendo los datos.";
+                _logger.LogError(result.Message, ex);
             }
             return result;
         }
-    
     }
 }
