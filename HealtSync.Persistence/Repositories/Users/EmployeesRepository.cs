@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HealtSync.Persistence.Repositories.Users
 {
-    internal class EmployeesRepository : BaseRepository<Employees>, IEmployeesRepository
+    public class EmployeesRepository : BaseRepository<Employees>, IEmployeesRepository
     {
 
         readonly HealtSyncContext _context = new();
@@ -37,7 +37,7 @@ namespace HealtSync.Persistence.Repositories.Users
         }
 
 
-        public EmployeesRepository(HealtSyncContext context, ILogger logger) : base(context) 
+        public EmployeesRepository(HealtSyncContext context, ILogger<EmployeesRepository> logger) : base(context) 
         {
             _context = context;
             _logger = logger;

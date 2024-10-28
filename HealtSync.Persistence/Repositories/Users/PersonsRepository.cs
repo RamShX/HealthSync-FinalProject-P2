@@ -15,7 +15,7 @@ namespace HealtSync.Persistence.Repositories.Users
         readonly HealtSyncContext _context;
         readonly ILogger _logger;
 
-        public PersonsRepository(HealtSyncContext context, ILogger logger) : base(context)
+        public PersonsRepository(HealtSyncContext context, ILogger<PersonsRepository> logger) : base(context)
         {
             _context = context;
             _logger = logger;

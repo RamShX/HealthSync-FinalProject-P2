@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace HealtSync.Users.Api.Controllers
+namespace HealtSync.System.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

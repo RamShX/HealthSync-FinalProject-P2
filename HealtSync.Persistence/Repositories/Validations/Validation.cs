@@ -13,7 +13,7 @@ namespace HealtSync.Persistence.Repositories.Validations
             _errorsMessages.Add(message);
         }
 
-        public bool IsValid => _errorsMessages.Any();
+        public bool IsValid => !_errorsMessages.Any();
 
         public void ValidateNotNull(TClass entity, string entityName)
         {

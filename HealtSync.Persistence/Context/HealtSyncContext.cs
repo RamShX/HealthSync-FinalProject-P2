@@ -43,6 +43,7 @@ namespace HealtSync.Persistence.Context
 
         #region *Users Entities*
         public DbSet<Doctors> Doctors { get; set; }
+        public DbSet<Users> Users { get; set; }
         public DbSet<Employees> Employees { get; set; }
         public DbSet<Patients> Patients { get; set; }
         public DbSet<Persons> Persons { get; set; }

@@ -20,7 +20,6 @@ namespace HealtSync.Persistence.Repositories.Users
             var validation = new Validation<Domain.Entities.Users.Users>();
 
             validation.ValidateNotNull(user, "El Usuario");
-            validation.ValidateNumber(user.UserID, "El ID del Usuario");
             validation.ValidateNotNullOrEmpty(user.Email!, "El Email");
             validation.ValidateNotNullOrEmpty(user.Password!, "La Contraseña");
             validation.ValidateNumber(user.RoleID, "EL Rol");
@@ -31,7 +30,7 @@ namespace HealtSync.Persistence.Repositories.Users
               : new OperationResult { Success = false, Message = string.Join(", ", validation.ErrorMessages) };
         }
 
-        public UsersRepository(HealtSyncContext context, ILogger logger) : base(context)
+        public UsersRepository(HealtSyncContext context, ILogger<UsersRepository> logger) : base(context)
         {
             _context = context;
             _logger = logger;
@@ -48,8 +47,8 @@ namespace HealtSync.Persistence.Repositories.Users
             {
                 if (await base.Exists(user => user.UserID == entity.UserID))
                 {
-                    result.Success = true;
-                    result.Message = "Ya este usuario está registrada";
+                    result.Success = false;
+                    result.Message = "Ya este usuario está registrado";
                     return result;
                 }
 
@@ -57,7 +56,7 @@ namespace HealtSync.Persistence.Repositories.Users
             }
             catch (Exception ex)
             {
-                result.Message = "Ocurrio un error guardando el Usuario.";
+                result.Message = "Ocurrio un error guardando el Usuario." + ex;
                 result.Success = false;
 
                 _logger.LogError(result.Message, ex.ToString());
@@ -150,7 +149,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.GetAll();
+                result.Data = await base.GetAll();
             }
             catch (Exception ex)
             {

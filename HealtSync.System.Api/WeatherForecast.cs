@@ -1,4 +1,4 @@
-namespace HealtSync.Users.Api
+namespace HealtSync.System.Api
 {
     public class WeatherForecast
     {

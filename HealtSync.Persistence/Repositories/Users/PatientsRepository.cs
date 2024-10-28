@@ -36,7 +36,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
         }
 
-        public PatientsRepository(HealtSyncContext context, ILogger logger) : base(context)
+        public PatientsRepository(HealtSyncContext context, ILogger<PatientsRepository> logger) : base(context)
         {
             _context = context;
             _logger = logger;

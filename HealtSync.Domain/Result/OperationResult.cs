@@ -1,6 +1,6 @@
 ﻿namespace HealtSync.Domain.Result
 {
-    public class OperationResult
+    public class OperationResult 
     {
         public OperationResult()
         {
