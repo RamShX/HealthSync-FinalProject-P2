@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using HealtSync.Persistence.Interfaces.Users;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using HealtSync.Domain.Entities.Users;
 
 namespace HealtSync.Users.Api.Controllers
 {
@@ -8,36 +9,55 @@ namespace HealtSync.Users.Api.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        // GET: api/<EmployeesControler>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IEmployeesRepository _employeesRepository;
+
+        public EmployeesController(IEmployeesRepository employeesRepository)
         {
-            return new string[] { "value1", "value2" };
+            _employeesRepository = employeesRepository;
         }
 
-        // GET api/<EmployeesControler>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetEmployees")]
+        public async Task<IActionResult> Get()
         {
-            return "value";
+            var result = await _employeesRepository.GetAll();
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
-        // POST api/<EmployeesControler>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("SaveEmployee")]
+        public async Task<IActionResult> Post([FromBody] Employees employee)
         {
+            var result = await _employeesRepository.Save(employee);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
-        // PUT api/<EmployeesControler>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("ModifyEmployee")]
+        public async Task<IActionResult> Put([FromBody] Employees employee)
         {
+            var result = await _employeesRepository.Update(employee);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
-        // DELETE api/<EmployeesControler>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("DisableEmployee")]
+        public async Task<IActionResult> Delete([FromBody] Employees employee)
         {
+            var result = await _employeesRepository.Remove(employee);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
     }
 }

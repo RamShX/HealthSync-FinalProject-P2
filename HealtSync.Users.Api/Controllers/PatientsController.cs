@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using HealtSync.Persistence.Interfaces.Users;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using HealtSync.Domain.Entities.Users;
 
 namespace HealtSync.Users.Api.Controllers
 {
@@ -8,36 +9,55 @@ namespace HealtSync.Users.Api.Controllers
     [ApiController]
     public class PatientsController : ControllerBase
     {
-        // GET: api/<PatientsController>
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly IPatientsRepository _patientsRepository;
+
+        public PatientsController(IPatientsRepository patientsRepository)
         {
-            return new string[] { "value1", "value2" };
+            _patientsRepository = patientsRepository;
         }
 
-        // GET api/<PatientsController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetPatients")]
+        public async Task<IActionResult> Get()
         {
-            return "value";
+            var result = await _patientsRepository.GetAll();
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
-        // POST api/<PatientsController>
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("SavePatient")]
+        public async Task<IActionResult> Post([FromBody] Patients patient)
         {
+            var result = await _patientsRepository.Save(patient);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
-        // PUT api/<PatientsController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut("ModifyPatient")]
+        public async Task<IActionResult> Put([FromBody] Patients patient)
         {
+            var result = await _patientsRepository.Update(patient);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
-        // DELETE api/<PatientsController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("DisablePatient")]
+        public async Task<IActionResult> Delete([FromBody] Patients patient)
         {
+            var result = await _patientsRepository.Remove(patient);
+
+            if (!result.Success)
+                return BadRequest(result);
+
+            return Ok(result);
         }
     }
 }

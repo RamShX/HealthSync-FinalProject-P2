@@ -13,7 +13,7 @@ namespace HealtSync.Users.Api.Controllers
         {
             _usersRepository = usersRepository;
         }
-        // GET: api/<UsersController>
+       
         [HttpGet("GetUsers")]
         public async Task<IActionResult> Get()
         {
@@ -25,14 +25,6 @@ namespace HealtSync.Users.Api.Controllers
             return Ok(result);
         }
 
-        // GET api/<UsersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<UsersController>
         [HttpPost("SaveUser")]
         public async Task<IActionResult> Post([FromBody] Domain.Entities.Users.Users user)
         {
@@ -45,8 +37,7 @@ namespace HealtSync.Users.Api.Controllers
 
         }
 
-        // PUT api/<UsersController>/5
-        [HttpPut("ModifyRuta")]
+        [HttpPut("ModifyUser")]
         public async Task<IActionResult> Put([FromBody]Domain.Entities.Users.Users user)
         {
             var result = await _usersRepository.Update(user);
@@ -57,7 +48,6 @@ namespace HealtSync.Users.Api.Controllers
             return Ok();
         }
 
-        // DELETE api/<UsersController>/5
         [HttpDelete("DisableUser")]
         public async Task<IActionResult> DisableUser([FromBody] Domain.Entities.Users.Users user)
         {

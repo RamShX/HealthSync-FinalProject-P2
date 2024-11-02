@@ -73,6 +73,13 @@ namespace HealtSync.Persistence.Repositories.Users
             if (!result.Success)
                 return result;
 
+            if(entity.UserID <= 0)
+            {
+                result.Success = false;
+                result.Message = "El ID del usuario es requerido";
+                return result;
+            }
+
             try
             {
                 await base.Update(entity);

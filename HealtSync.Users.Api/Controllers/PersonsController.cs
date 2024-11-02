@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+﻿using HealtSync.Domain.Entities.Users;
+using HealtSync.Domain.Result;
+using HealtSync.Persistence.Interfaces.Users;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HealtSync.Users.Api.Controllers
 {
@@ -8,36 +9,76 @@ namespace HealtSync.Users.Api.Controllers
     [ApiController]
     public class PersonsController : ControllerBase
     {
-        // GET: api/<PersonsController>
+        private readonly IPersonsRepository _personsRepository;
+
+        public PersonsController(IPersonsRepository personsRepository)
+        {
+            _personsRepository = personsRepository;
+        }
+
+        // GET: api/Persons
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IActionResult> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = await _personsRepository.GetAll();
+            if (result.Success)
+                return Ok(result.Data); // assuming OperationResult has a Data property for returning the list
+
+            return StatusCode(500, result.Message);
         }
 
-        // GET api/<PersonsController>/5
+        // GET api/Persons/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            var result = await _personsRepository.GetEntityBy(id);
+            if (result.Success)
+                return Ok(result.Data); // assuming Data holds the single Person entity
+
+            return NotFound(result.Message);
         }
 
-        // POST api/<PersonsController>
+        // POST api/Persons
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] Persons person)
         {
+            if (person == null)
+                return BadRequest("Person data is required.");
+
+            var result = await _personsRepository.Save(person);
+            if (result.Success)
+                return CreatedAtAction(nameof(Get), new { id = person.PersonID }, person);
+
+            return StatusCode(500, result.Message);
         }
 
-        // PUT api/<PersonsController>/5
+        // PUT api/Persons/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Persons person)
         {
+            if (person == null || person.PersonID != id)
+                return BadRequest("Invalid data.");
+
+            var result = await _personsRepository.Update(person);
+            if (result.Success)
+                return NoContent();
+
+            return StatusCode(500, result.Message);
         }
 
-        // DELETE api/<PersonsController>/5
+        // DELETE api/Persons/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var person = await _personsRepository.GetEntityBy(id);
+            if (!person.Success)
+                return NotFound(person.Message);
+
+            var result = await _personsRepository.Remove((Persons)person.Data!);
+            if (result.Success)
+                return NoContent();
+
+            return StatusCode(500, result.Message);
         }
     }
 }
