@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Contracts\" />
+    <Folder Include="Dtos\Medical\" />
+    <Folder Include="Dtos\Appoiments\" />
+    <Folder Include="Dtos\Insurance\" />
+    <Folder Include="Dtos\System\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HealtSync.Persistence\HealtSync.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>
