@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
     <Folder Include="Dtos\Medical\" />
     <Folder Include="Dtos\Appoiments\" />
     <Folder Include="Dtos\Insurance\" />

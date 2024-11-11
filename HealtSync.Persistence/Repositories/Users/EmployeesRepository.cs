@@ -162,10 +162,5 @@ namespace HealtSync.Persistence.Repositories.Users
             return result;
         }
 
-        public async void SaveChanges()
-        {
-            base.SaveChanges();
-        }
-    
     }
 }
