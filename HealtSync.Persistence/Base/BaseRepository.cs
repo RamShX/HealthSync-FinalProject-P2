@@ -38,7 +38,6 @@ namespace HealtSync.Persistence.Base
 
             return result;
         }
-
         public virtual async Task<OperationResult> GetEntityBy(int id)
         {
             OperationResult result = new OperationResult();
@@ -111,6 +110,26 @@ namespace HealtSync.Persistence.Base
 
             return result;
         }
+
+        public virtual async Task<OperationResult> SaveChanges()
+        {
+           
+            OperationResult result = new OperationResult();
+
+            try
+            { 
+                await _healtSyncContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = $"Ocurrió el error: {ex} guardando cambios";
+            }
+
+            return result;
+
+        }
+
 
     }
 }

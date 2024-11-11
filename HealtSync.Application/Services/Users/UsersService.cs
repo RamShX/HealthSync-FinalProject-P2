@@ -69,16 +69,16 @@ namespace HealtSync.Application.Services.Users
 
         }
 
-        public async Task<UsersResponse> SaveeAsync(UsersSaveDto dto)
+        public async Task<UsersResponse> SaveAsync(UsersSaveDto dto)
         {
             UsersResponse userResponse = new();
 
             try
             {
-                var result = await _userRepository.Save(dto);
+                //var result = await _userRepository.Save(dto);
 
-                userResponse.IsSuccess = result.Success;
-                userResponse.Model = result.Data;
+               // userResponse.IsSuccess = result.Success;
+               // userResponse.Model = result.Data;
 
             }
             catch (Exception ex)

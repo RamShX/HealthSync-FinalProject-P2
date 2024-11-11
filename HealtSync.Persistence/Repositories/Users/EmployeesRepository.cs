@@ -27,7 +27,6 @@ namespace HealtSync.Persistence.Repositories.Users
             validation.ValidateNotNullOrEmpty(employee.JobTitle!, "El titulo del empleo");
             validation.ValidateNotNullOrEmpty(employee.PhoneNumber!, "El número telefónico");
             validation.ValidateDate(employee.CreatedAt, "La fecha de creación");
-            validation.ValidateNumber(employee.PersonID, "El ID de Persona");
 
 
             return validation.IsValid
@@ -50,13 +49,6 @@ namespace HealtSync.Persistence.Repositories.Users
             if (!result.Success)
                 return result;
 
-            if (await base.Exists(employee => employee.UserID == entity.UserID))
-            {
-                result.Success = false;
-                result.Message = "Ya existe un empleado con ese usuario";
-                return result;
-            }
-               
             try
             {
                 await base.Save(entity);
@@ -150,8 +142,6 @@ namespace HealtSync.Persistence.Repositories.Users
                 return result;
             }
 
-
-
             return result;
         }
         public async override Task<OperationResult> GetAll()
@@ -160,7 +150,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.GetAll();
+                result.Data = await base.GetAll();
             }
             catch (Exception ex)
             {
@@ -170,6 +160,11 @@ namespace HealtSync.Persistence.Repositories.Users
                 return result;
             }
             return result;
+        }
+
+        public async void SaveChanges()
+        {
+            base.SaveChanges();
         }
     
     }

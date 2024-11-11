@@ -27,7 +27,7 @@ namespace HealtSync.Persistence.Repositories.Medical
 
             validation.ValidateNotNull(entity, "La especialidad");
             validation.ValidateNumber(entity.SpecialtyID, "El ID de la especialidad");
-            validation.ValidateNotNullOrEmpty(entity.SpecialtyName, "El nombre de la especialidad");
+            validation.ValidateNotNullOrEmpty(entity.SpecialtyName!, "El nombre de la especialidad");
             validation.ValidateDate(entity.CreatedAt, "La fecha de creación");
 
             return validation.IsValid

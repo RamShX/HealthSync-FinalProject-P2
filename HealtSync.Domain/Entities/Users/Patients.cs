@@ -9,7 +9,6 @@ namespace HealtSync.Domain.Entities.Users
     {
         [Key]
         public int PatientID { get; set; }
-        public int UserID { get; set; }
         public string? PhoneNumber { get; set; }
         public string? Address { get; set; }
         public string? EmergencyContactName { get; set; }

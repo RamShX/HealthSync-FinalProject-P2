@@ -26,8 +26,7 @@ namespace HealtSync.Persistence.Repositories.Users
             validation.ValidateDate(doctor.LicenseExpirationDate, "La fecha de expiración de la licencia");
             validation.ValidateDate(doctor.CreatedAt, "La fecha de creación");
             validation.ValidateNumber(doctor.YearsOfExperiencie, "Los años de experiencia ");
-            validation.ValidateNumber(doctor.PersonID, "EL ID de la persona");
-            validation.ValidateNumber(doctor.UserID, "EL ID del Usuario es requerido");
+
 
             return validation.IsValid
               ? new OperationResult { Success = true }

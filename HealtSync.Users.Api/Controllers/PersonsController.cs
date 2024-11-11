@@ -33,7 +33,7 @@ namespace HealtSync.Users.Api.Controllers
         {
             var result = await _personsRepository.GetEntityBy(id);
             if (result.Success)
-                return Ok(result.Data); // assuming Data holds the single Person entity
+                return Ok(result.Data); 
 
             return NotFound(result.Message);
         }
@@ -48,7 +48,10 @@ namespace HealtSync.Users.Api.Controllers
             var result = await _personsRepository.Save(person);
             if (result.Success)
                 return CreatedAtAction(nameof(Get), new { id = person.PersonID }, person);
-
+            
+        
+            int personId = person.PersonID;
+          
             return StatusCode(500, result.Message);
         }
 

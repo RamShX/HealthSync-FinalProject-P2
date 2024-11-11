@@ -29,7 +29,6 @@ namespace HealtSync.Persistence.Repositories.Users
 
 
             validation.ValidateNotNull(person, "Persona");
-            validation.ValidateNumber(person.PersonID, "El ID de la persona");
             validation.ValidateNotNullOrEmpty(person.FirstName!, "El nombre");
             validation.ValidateNotNullOrEmpty(person.LastName!, "El apellido");
             validation.ValidateDate(person.DateOfBirth, "La fecha de nacimiento");
@@ -168,8 +167,22 @@ namespace HealtSync.Persistence.Repositories.Users
             return result;
         }
 
+        public async override Task<OperationResult> SaveChanges()
+        {
+            OperationResult result = new();
 
+            try
+            {
+                await base.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                result.Success = false;
+                result.Message = "Ocurrió un error guardando cambios.";
+                _logger.LogError(result.Message, ex);
+            }
+            return result;
 
-
+        }
     }
 }
