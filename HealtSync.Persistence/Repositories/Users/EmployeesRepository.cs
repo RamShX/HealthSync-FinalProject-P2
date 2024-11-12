@@ -132,7 +132,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.GetEntityBy(id);
+               result = await base.GetEntityBy(id);
             }
             catch (Exception ex)
             {
@@ -150,7 +150,8 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                result.Data = await base.GetAll();
+
+                result = await base.GetAll();
             }
             catch (Exception ex)
             {

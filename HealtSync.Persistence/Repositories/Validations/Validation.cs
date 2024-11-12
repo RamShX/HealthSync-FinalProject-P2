@@ -4,7 +4,7 @@ namespace HealtSync.Persistence.Repositories.Validations
 {
     public class Validation<TClass>
     {
-       
+
         private readonly List<string> _errorsMessages = new List<string>();
         public IReadOnlyList<string> ErrorMessages => _errorsMessages;
 
@@ -35,13 +35,13 @@ namespace HealtSync.Persistence.Repositories.Validations
 
         public void ValidateDate(DateTime date, string fieldName)
         {
-            if (date == DateTime.MinValue)
+            if (date == DateTime.MinValue )
                 AddError($"{fieldName} es requerida.");
         }
 
         public void ValidateDate(DateTime? date, string fieldName)
         {
-            if (date == DateTime.MinValue)
+            if (date == DateTime.MinValue || date is null)
                 AddError($"{fieldName} es requerida.");
         }
 

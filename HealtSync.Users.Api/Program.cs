@@ -1,9 +1,9 @@
-using HealtSync.Domain.Entities.Users;
+
 using HealtSync.Persistence.Context;
 using HealtSync.Persistence.Interfaces.Users;
 using HealtSync.Persistence.Repositories.Users;
 using Microsoft.EntityFrameworkCore;
-
+using HealtSync.IOC.Dependencies.Users;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,11 +12,7 @@ builder.Services.AddDbContext<HealtSyncContext>(options => options.UseSqlServer(
 
 //Registro de cada una de las dependencias de repositorios de Users
 
-builder.Services.AddScoped<IDoctorsRepository, DoctorsRepository>();
-builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
-builder.Services.AddScoped<IUsersRepository, UsersRepository>();
-builder.Services.AddScoped<IPatientsRepository, PatientsRepository>();
-builder.Services.AddScoped<IEmployeesRepository, EmployeesRepository>();
+builder.Services.AddUserDependency();
 
 //
 

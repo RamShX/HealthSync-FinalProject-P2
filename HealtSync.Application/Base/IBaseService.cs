@@ -8,5 +8,6 @@ namespace HealtSync.Application.Base
         Task<TResponse> UpdateAsync(TUpdateDto dto);
         Task<TResponse> GetAll();
         Task<TResponse> GetById(int id);
+        Task<TResponse> DisableAsync(int id);
     }
 }

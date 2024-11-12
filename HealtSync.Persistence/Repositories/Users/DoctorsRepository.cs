@@ -55,9 +55,9 @@ namespace HealtSync.Persistence.Repositories.Users
                     result.Message = "Ya esa persona está registrada";
                     return result;
                 }
-            
-                  
-                await base.Save(entity);
+
+
+                result = await base.Save(entity);
             }
             catch (Exception ex)
             {
@@ -86,7 +86,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.Update(entity);
+                result = await base.Update(entity);
             }
             catch (Exception ex)
             {
@@ -99,7 +99,7 @@ namespace HealtSync.Persistence.Repositories.Users
             return result;
         }
 
-        public async override Task<OperationResult> Remove(Doctors entity)
+        public async override Task<OperationResult> Remove(Doctors entity) 
         {
             OperationResult result = new();
 
@@ -120,7 +120,7 @@ namespace HealtSync.Persistence.Repositories.Users
                     return result;
                 }
 
-                await base.Remove(entity);
+                result = await base.Remove(entity);
             }
             catch (Exception ex)
             {
@@ -146,7 +146,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.GetEntityBy(id);
+                result = await base.GetEntityBy(id);
             }
             catch (Exception ex)
             {
@@ -165,7 +165,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             { 
-                await base.GetAll();
+               result = await base.GetAll();
             }
             catch (Exception ex)
             {

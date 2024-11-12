@@ -17,12 +17,12 @@ namespace HealtSync.Application.Services.Users
 {
     public class EmployeesService : IEmployeesService
     {
-        private readonly EmployeesRepository _employeesRepository;
-        private readonly PersonsRepository _personsRepository;
-        private readonly UsersRepository _usersRepository;
+        private readonly IEmployeesRepository _employeesRepository;
+        private readonly IPersonsRepository _personsRepository;
+        private readonly IUsersRepository _usersRepository;
         private readonly ILogger<EmployeesService> _logger;
 
-        public EmployeesService(EmployeesRepository employeesRepository, PersonsRepository personsRepository, UsersRepository usersRepository, ILogger<EmployeesService> logger)
+        public EmployeesService(IEmployeesRepository employeesRepository, IPersonsRepository personsRepository, IUsersRepository usersRepository, ILogger<EmployeesService> logger)
         {
             if (employeesRepository is null)
                 throw new ArgumentNullException(nameof(employeesRepository));
@@ -43,9 +43,10 @@ namespace HealtSync.Application.Services.Users
                 var personsResult = await _personsRepository.GetAll();
                 var usersResult = await _usersRepository.GetAll();
 
-                var employeesList = (List<Employees>)employeesResult.Data!;
-                var personsList = (List<Persons>)personsResult.Data!;
-                var usersList = (List<Domain.Entities.Users.Users>)usersResult.Data!;
+                
+                var employeesList = (List<Employees>) employeesResult.Data;
+                var personsList = (List<Persons>) personsResult.Data!;
+                var usersList = (List<Domain.Entities.Users.Users>) usersResult.Data!;
 
 
                 List<GetEmployeeDto> employees = employeesList
@@ -81,147 +82,174 @@ namespace HealtSync.Application.Services.Users
             return employeesResponse;
 
         }
+
+
+        public async Task<EmployeesResponse> GetById(int id)
+        {
+            EmployeesResponse employeesResponse = new();
+
+            try
+            {
+                var employeeResult = await _employeesRepository.GetEntityBy(id);
+                var userResult = await _usersRepository.GetEntityBy(id);
+                var personResult = await _personsRepository.GetEntityBy(id);
+
+                Employees employee = employeeResult.Data!;
+                Persons person = personResult.Data!;
+                Domain.Entities.Users.Users user = userResult.Data!;
+
+                GetEmployeeDto employeeDto = new GetEmployeeDto()
+                {
+                    EmployeeID = employee.EmployeeID,
+                    FirstName = person.FirstName,
+                    LastName = person.LastName,
+                    IdentificationNumber = person.IdentificationNumber,
+                    Gender = person.Gender,
+                    JobTitle = employee.JobTitle,
+                    RoleID = user.RoleID,
+                    ChangeDate = employee.UpdatedAt
+
+                };
+
+                employeesResponse.IsSuccess = employeeResult.Success && userResult.Success && personResult.Success;
+                employeesResponse.model = employeeDto;
+
+            }
+            catch (Exception ex)
+            {
+                employeesResponse.IsSuccess = false;
+                employeesResponse.Message = "Ocurrió un error obteniendon el empleado";
+                _logger.LogError(employeesResponse.Message, ex);
+            }
+
+            return employeesResponse;
+
+        }
+
+        public async Task<EmployeesResponse> SaveAsync(EmployeesSaveDto dto)
+        {
+            EmployeesResponse employeesResponse = new EmployeesResponse();
+
+            try
+            {
+                Persons person = new Persons()
+                {
+                    FirstName = dto.FirstName,
+                    LastName = dto.LastName,
+                    IdentificationNumber = dto.IdentificationNumber,
+                    Gender = dto.Gender,
+                    DateOfBirth = dto.DateOfBirth
+                };
+
+                var personResult = await _personsRepository.Save(person);
+                int personID = person.PersonID;
+
+                Employees employee = new()
+                {
+                    EmployeeID = personID,
+                    JobTitle = dto.JobTitle,
+                    PhoneNumber = dto.PhoneNumber,
+                    CreatedAt = dto.ChangeDate,
+
+                };
+
+                Domain.Entities.Users.Users user = new()
+                {
+                    UserID = personID,
+                    Email = dto.Email,
+                    Password = dto.Password,
+                    RoleID = dto.RoleID,
+                    CreatedAt = dto.ChangeDate
+    
+
+                };
+
+                var userResult = await _usersRepository.Save(user);
+                var employeeResult = await _employeesRepository.Save(employee);
+
+                employeesResponse.IsSuccess = userResult.Success && employeeResult.Success && personResult.Success;
+
+            }
+            catch (Exception ex)
+            {
+                employeesResponse.IsSuccess = false;
+                employeesResponse.Message = "Ocurrió un error obteniendon el empleado";
+                _logger.LogError(employeesResponse.Message, ex);
+            }
+
+            return employeesResponse;
+        }
+
+        public async Task<EmployeesResponse> UpdateAsync(EmployeesUpdateDto dto)
+        {
+            EmployeesResponse employeeResponse = new();
+
+            try
+            {
+                var resultEmployee = await _employeesRepository.GetEntityBy(dto.EmployeeId);
+                var resultPerson = await _personsRepository.GetEntityBy(dto.EmployeeId);
+                var resultUser = await _usersRepository.GetEntityBy(dto.EmployeeId);
+
+                Employees employeeToUpdate = resultEmployee.Data!;
+                Persons personToUpdate = resultPerson.Data!;
+                Domain.Entities.Users.Users userToUpdate = resultUser.Data!;
+
+                personToUpdate.FirstName = dto.FirstName;
+                personToUpdate.LastName = dto.LastName;
+                personToUpdate.DateOfBirth = dto.DateOfBirth;
+                personToUpdate.IdentificationNumber = dto.IdentificationNumber;
+                personToUpdate.Gender = dto.Gender;
+
+                employeeToUpdate.JobTitle = dto.JobTitle;
+                employeeToUpdate.UpdatedAt = dto.ChangeDate;
+                employeeToUpdate.PhoneNumber = dto.PhoneNumber;
+
+                userToUpdate.Email = dto.Email;
+                userToUpdate.Password = dto.Password;
+                userToUpdate.RoleID = dto.RoleID;
+
+                var resultUpdateEmployee = await _employeesRepository.Update(employeeToUpdate);
+                var resultUpdateUser = await _usersRepository.Update(userToUpdate);
+                var resultUpdatePerson = await _personsRepository.Update(personToUpdate);
+
+                employeeResponse.IsSuccess = resultUpdateEmployee.Success && resultUpdateEmployee.Success && resultUpdateUser.Success;
+
+            }
+            catch (Exception ex)
+            {
+                employeeResponse.IsSuccess = false;
+                employeeResponse.Message = "Hubo un error actualizando el empleado";
+                _logger.LogError(employeeResponse.Message, ex);
+
+            }
+
+            return employeeResponse;
             
+        }
 
-public async Task<EmployeesResponse> GetById(int id)
-{
-    EmployeesResponse employeesResponse = new();
-
-    try
-    {
-        var employeeResult = await _employeesRepository.GetEntityBy(id);
-        var userResult = await _usersRepository.GetEntityBy(id);
-        var personResult = await _personsRepository.GetEntityBy(id);
-
-        Employees employee = employeeResult.Data!;
-        Persons person = personResult.Data!;
-        Domain.Entities.Users.Users user = userResult.Data!;
-
-        GetEmployeeDto employeeDto = new GetEmployeeDto()
+        
+        public async Task<EmployeesResponse> DisableAsync(int id)
         {
-            EmployeeID = employee.EmployeeID,
-            FirstName = person.FirstName,
-            LastName = person.LastName,
-            IdentificationNumber = person.IdentificationNumber,
-            Gender = person.Gender,
-            JobTitle = employee.JobTitle,
-            RoleID = user.RoleID,
-            ChangeDate = employee.UpdatedAt
+            EmployeesResponse employeeResponse = new();
 
-        };
+            try
+            {
+                var resultEmployee = await _employeesRepository.GetEntityBy(id);
+                Employees employee = resultEmployee.Data!;
 
-        employeesResponse.IsSuccess = employeeResult.Success && userResult.Success && personResult.Success;
-        employeesResponse.model = employeeDto;
+                var resultUpdateEmployee = await _employeesRepository.Update(employee);
 
-    }
-    catch (Exception ex)
-    {
-        employeesResponse.IsSuccess = false;
-        employeesResponse.Message = "Ocurrió un error obteniendon el empleado";
-        _logger.LogError(employeesResponse.Message, ex);
-    }
+                employeeResponse.IsSuccess = resultEmployee.Success && resultUpdateEmployee.Success;
+                employeeResponse.Message = "Se ha desactivado el empleado exitosamente.";
+            }
+            catch(Exception ex)
+            {
+                employeeResponse.IsSuccess = false;
+                employeeResponse.Message = "Hubo un problema desactivando el emploeado";
+                _logger.LogError(employeeResponse.Message, ex);
+            }
 
-    return employeesResponse;
-
-}
-
-public async Task<EmployeesResponse> SaveAsync(EmployeesSaveDto dto)
-{
-    EmployeesResponse employeesResponse = new EmployeesResponse();
-
-    try
-    {
-        Persons person = new Persons()
-        {
-            FirstName = dto.FirstName,
-            LastName = dto.LastName,
-            IdentificationNumber = dto.IdentificationNumber,
-            Gender = dto.Gender,
-            DateOfBirth = dto.DateOfBirth
-        };
-
-        var personResult = await _personsRepository.Save(person);
-        int personID = person.PersonID;
-
-        Employees employee = new()
-        {
-            EmployeeID = personID,
-            JobTitle = dto.JobTitle,
-            PhoneNumber = dto.PhoneNumber,
-            CreatedAt = dto.ChangeDate,
-
-        };
-
-        Domain.Entities.Users.Users user = new()
-        {
-            UserID = personID,
-            Email = dto.Email,
-            Password = dto.Password,
-            RoleID = dto.RoleID,
-
-        };
-
-        var userResult = await _usersRepository.Save(user);
-        var employeeResult = await _employeesRepository.Save(employee);
-
-        employeesResponse.IsSuccess = userResult.Success && employeeResult.Success && personResult.Success;
-
-    }
-    catch (Exception ex)
-    {
-        employeesResponse.IsSuccess = false;
-        employeesResponse.Message = "Ocurrió un error obteniendon el empleado";
-        _logger.LogError(employeesResponse.Message, ex);
-    }
-
-    return employeesResponse;
-}
-
-public async Task<EmployeesResponse> UpdateAsync(EmployeesUpdateDto dto)
-{
-    EmployeesResponse employeeResponse = new();
-
-    try
-    {
-        var resultEmployee = await _employeesRepository.GetEntityBy(dto.EmployeeId);
-        var resultPerson = await _personsRepository.GetEntityBy(dto.EmployeeId);
-        var resultUser = await _usersRepository.GetEntityBy(dto.EmployeeId);
-
-        Employees employeeToUpdate = resultEmployee.Data!;
-        Persons personToUpdate = resultEmployee.Data!;
-        Domain.Entities.Users.Users userToUpdate = resultUser.Data!;
-
-        personToUpdate.FirstName = dto.FirstName;
-        personToUpdate.LastName = dto.LastName;
-        personToUpdate.DateOfBirth = dto.DateOfBirth;
-        personToUpdate.IdentificationNumber = dto.IdentificationNumber;
-        personToUpdate.Gender = dto.Gender;
-
-        employeeToUpdate.JobTitle = dto.JobTitle;
-        employeeToUpdate.UpdatedAt = dto.ChangeDate;
-        employeeToUpdate.PhoneNumber = dto.PhoneNumber;
-
-        userToUpdate.Email = dto.Email;
-        userToUpdate.Password = dto.Password;
-        userToUpdate.RoleID = dto.RoleId;
-
-        var resultUpdateEmployee = await _employeesRepository.Update(employeeToUpdate);
-        var resultUpdateUser = await _usersRepository.Update(userToUpdate);
-        var resultUpdatePerson = await _personsRepository.Update(personToUpdate);
-
-        employeeResponse.IsSuccess = resultUpdateEmployee.Success && resultUpdateEmployee.Success && resultUpdateUser.Success;
-
-    }
-    catch (Exception ex)
-    {
-        employeeResponse.IsSuccess = false;
-        employeeResponse.Message = "Hubo un error actualizando el empleado";
-        _logger.LogError(employeeResponse.Message, ex);
-
-    }
-
-    return employeeResponse;
-    ;
-}
+            return employeeResponse;
+        }
     }
 }

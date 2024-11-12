@@ -56,7 +56,7 @@ namespace HealtSync.Persistence.Repositories.Users
                 }
               
 
-                await base.Save(entity);
+                result = await base.Save(entity);
             }
             catch (Exception ex)
             {
@@ -78,7 +78,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.Save(entity);
+                result = await base.Save(entity);
             }
             catch (Exception ex)
             {
@@ -111,7 +111,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.Remove(entity);
+                result = await base.Remove(entity);
             }
             catch (Exception ex)
             {
@@ -137,7 +137,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.GetEntityBy(id);
+               result = await base.GetEntityBy(id);
             }
             catch (Exception ex)
             {
@@ -156,7 +156,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.GetAll();
+                result = await base.GetAll();
             }
             catch (Exception ex)
             {

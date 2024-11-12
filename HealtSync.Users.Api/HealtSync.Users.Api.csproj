@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HealtSync.Persistence\HealtSync.Persistence.csproj" />
+    <ProjectReference Include="..\HealtSync.IOC\HealtSync.IOC.csproj" />
   </ItemGroup>
 
 </Project>

@@ -60,7 +60,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.Save(entity);
+                result = await base.Save(entity);
             }
             catch (Exception ex)
             {
@@ -83,7 +83,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.Update(entity);
+                result = await base.Update(entity);
             }
             catch (Exception ex)
             {
@@ -109,7 +109,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.Remove(entity);
+                result =  await base.Remove(entity);
             }
             catch (Exception ex)
             {
