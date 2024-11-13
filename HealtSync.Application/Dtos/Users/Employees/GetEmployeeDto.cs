@@ -10,11 +10,10 @@ namespace HealtSync.Application.Dtos.Users.Employees
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
-        public string? IdentificationNumber { get; set; }
         public char Gender { get; set; }
         public string? JobTitle { get; set; }
         public int RoleID { get; set; }
         public int EmployeeID { get; set; }
-        public DateTime? ChangeDate { get; set; }
+   
     }
 }

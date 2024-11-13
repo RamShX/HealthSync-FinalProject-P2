@@ -1,17 +1,9 @@
-﻿using HealtSync.Application.Base;
-using HealtSync.Application.Contracts.Users;
+﻿using HealtSync.Application.Contracts.Users;
 using HealtSync.Application.Dtos.Users.Employees;
 using HealtSync.Application.Response.Users.Employees;
 using HealtSync.Domain.Entities.Users;
-using HealtSync.Domain.Result;
 using HealtSync.Persistence.Interfaces.Users;
-using HealtSync.Persistence.Repositories.Users;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HealtSync.Application.Services.Users
 {
@@ -44,7 +36,7 @@ namespace HealtSync.Application.Services.Users
                 var usersResult = await _usersRepository.GetAll();
 
                 
-                var employeesList = (List<Employees>) employeesResult.Data;
+                var employeesList = (List<Employees>) employeesResult.Data!;
                 var personsList = (List<Persons>) personsResult.Data!;
                 var usersList = (List<Domain.Entities.Users.Users>) usersResult.Data!;
 
@@ -59,12 +51,10 @@ namespace HealtSync.Application.Services.Users
                                                     {
                                                         EmployeeID = employee.EmployeeID,
                                                         JobTitle = employee.JobTitle,
-                                                        ChangeDate = employee.UpdatedAt,
                                                         FirstName = person!.FirstName,
                                                         LastName = person.LastName,
-                                                        IdentificationNumber = person.IdentificationNumber,
                                                         Gender = person.Gender,
-                                                        RoleID = user!.UserID
+                                                        RoleID = user!.RoleID
                                                     };
 
                                                 }).ToList();
@@ -103,11 +93,9 @@ namespace HealtSync.Application.Services.Users
                     EmployeeID = employee.EmployeeID,
                     FirstName = person.FirstName,
                     LastName = person.LastName,
-                    IdentificationNumber = person.IdentificationNumber,
                     Gender = person.Gender,
                     JobTitle = employee.JobTitle,
                     RoleID = user.RoleID,
-                    ChangeDate = employee.UpdatedAt
 
                 };
 
@@ -237,10 +225,15 @@ namespace HealtSync.Application.Services.Users
                 var resultEmployee = await _employeesRepository.GetEntityBy(id);
                 Employees employee = resultEmployee.Data!;
 
+                employee.IsActive = false;
+
                 var resultUpdateEmployee = await _employeesRepository.Update(employee);
 
                 employeeResponse.IsSuccess = resultEmployee.Success && resultUpdateEmployee.Success;
                 employeeResponse.Message = "Se ha desactivado el empleado exitosamente.";
+
+                
+
             }
             catch(Exception ex)
             {

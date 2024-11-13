@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace HealtSync.Domain.Entities.Insurance
 {
     [Table("InsuranceProviders", Schema = "Insurance")]
-    public sealed class InsuranceProviders : AuditableEntity, IActivatableEntity, IContactable
+    public sealed class InsuranceProviders : AuditableEntity, IContactable
     {
         [Key]
         public int InsuranceProviderID { get; set; }
@@ -26,6 +26,5 @@ namespace HealtSync.Domain.Entities.Insurance
         public string? CustomerSupportContact { get; set; }
         public string? AcceptedRegions { get; set; }
         public decimal? MaxCoverageAmount { get; set; }
-        public bool IsActive { get; set; }
     }
 }
