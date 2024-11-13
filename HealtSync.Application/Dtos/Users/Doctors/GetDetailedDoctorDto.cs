@@ -1,8 +1,7 @@
 ﻿
 namespace HealtSync.Application.Dtos.Users.Doctors
 {
-    public class GetDoctorDto : DoctorBaseDto
+    public class GetDetailedDoctorDto : DoctorUpdateDto
     {
-        
     }
 }

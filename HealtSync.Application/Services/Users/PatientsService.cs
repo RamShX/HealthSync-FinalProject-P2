@@ -74,7 +74,7 @@ namespace HealtSync.Application.Services.Users
                                                           var user = usersList.FirstOrDefault(user => user.UserID == patient.PatientID);
 
                                                           var patientTuple = (patient, person, user);
-                                                          GetPatientDto getPatientDto = patientsMapping.ConvertEntityToGetDto(patientTuple!);
+                                                          GetPatientDto getPatientDto = patientsMapping.ConvertEntityToGetSimpletDto(patientTuple!);
                                                           return getPatientDto;
 
                                                       }).ToList();
@@ -112,7 +112,7 @@ namespace HealtSync.Application.Services.Users
 
                 var patientTuple = (patient, person, user);
 
-                GetPatientDto getPatientDto = patientesMapping.ConvertEntityToGetDto(patientTuple);
+                GetPatientDto getPatientDto = patientesMapping.ConvertEntityToGetSimpletDto(patientTuple);
 
                 patientResponse.IsSuccess = patientResult.Success && personResult.Success & userResult.Success;
                 patientResponse.Message = patientResponse.IsSuccess ? "Se ha obtenido el paciente satisfactoriamente" : string.Join(", ", patientResult.Message, personResult.Message, userResult.Message);

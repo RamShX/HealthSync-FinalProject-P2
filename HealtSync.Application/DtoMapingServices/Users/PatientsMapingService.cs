@@ -7,9 +7,14 @@ using HealtSync.Domain.Entities.Users;
 
 namespace HealtSync.Application.DtoMapingServices.Users
 {
-    internal class PatientsMapingService : IDtoMappingService<(Patients, Persons, Domain.Entities.Users.Users), PatientSaveDto, PatientUpdateDto, GetPatientDto>
+    internal class PatientsMapingService : IDtoMappingService<(Patients, Persons, Domain.Entities.Users.Users), PatientSaveDto, PatientUpdateDto, GetPatientDto, GetDetailedPatientDto>
     {
-        public GetPatientDto ConvertEntityToGetDto((Patients, Persons, Domain.Entities.Users.Users) entity)
+        public GetDetailedPatientDto ConvertEntityToGetDetailedDto((Patients, Persons, Domain.Entities.Users.Users) entity)
+        {
+            throw new NotImplementedException();
+        }
+
+        public GetPatientDto ConvertEntityToGetSimpletDto((Patients, Persons, Domain.Entities.Users.Users) entity)
         {
             Patients patient = entity.Item1 as Patients;
             Persons person = entity.Item2 as Persons;
@@ -30,7 +35,6 @@ namespace HealtSync.Application.DtoMapingServices.Users
                 InsuranceProviderID = patient.InsuranceProviderID,
                 PhoneNumber = patient.PhoneNumber,
 
-                Email = user.Email
 
             };
 

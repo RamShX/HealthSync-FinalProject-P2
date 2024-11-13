@@ -14,7 +14,7 @@ namespace HealtSync.Application.Dtos.Users
         public char Gender { get; set; }
 
         //Correspondiente a User
-        public string? Email { get; set; }
+     
 
     }
 }

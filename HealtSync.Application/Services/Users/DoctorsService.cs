@@ -69,7 +69,7 @@ namespace HealtSync.Application.Services.Users
 
                 DoctorMappingService doctorMapping = new();
 
-                List<GetDoctorDto> doctors = doctorsList
+                List<GetSimpleDoctorDto> doctors = doctorsList
                                               .Select(doctor =>
                                               {
                                                   var person = personsList.FirstOrDefault(person => person.PersonID == doctor.DoctorID);
@@ -77,7 +77,7 @@ namespace HealtSync.Application.Services.Users
 
                                                   var doctorTuple = (doctor, person, user);
 
-                                                  GetDoctorDto getDoctorDto = doctorMapping.ConvertEntityToGetDto(doctorTuple!);
+                                                  GetSimpleDoctorDto getDoctorDto = doctorMapping.ConvertEntityToGetSimpletDto(doctorTuple!);
 
                                                   return getDoctorDto;
 
@@ -122,7 +122,7 @@ namespace HealtSync.Application.Services.Users
 
                 DoctorMappingService doctorMapping = new();
 
-                GetDoctorDto getDoctorDto = doctorMapping.ConvertEntityToGetDto(doctorTuple);
+                GetDetailedDoctorDto getDoctorDto = doctorMapping.ConvertEntityToGetDetailedDto(doctorTuple);
 
                 doctorResponse.IsSuccess = doctorResult.Success && personResult.Success && userResult.Success;
 

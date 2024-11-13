@@ -12,7 +12,6 @@
     <Folder Include="Dtos\Insurance\" />
     <Folder Include="Dtos\Users\Employees\DtoConverters\" />
     <Folder Include="Dtos\System\" />
-    <Folder Include="Dtos\Users\Base\" />
   </ItemGroup>
 
   <ItemGroup>

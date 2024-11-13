@@ -9,31 +9,63 @@ using System.Threading.Tasks;
 
 namespace HealtSync.Application.DtoMapingServices.Users
 {
-    public class DoctorMappingService : IDtoMappingService<(Doctors, Persons, Domain.Entities.Users.Users), DoctorSaveDto, DoctorUpdateDto, GetDoctorDto>
+    public class DoctorMappingService : IDtoMappingService<(Doctors, Persons, Domain.Entities.Users.Users), DoctorSaveDto, DoctorUpdateDto, GetSimpleDoctorDto, GetDetailedDoctorDto>
     {
-        public GetDoctorDto ConvertEntityToGetDto((Doctors, Persons, Domain.Entities.Users.Users) entity)
+        public GetDetailedDoctorDto ConvertEntityToGetDetailedDto((Doctors, Persons, Domain.Entities.Users.Users) entity)
         {
             Doctors doctor = entity.Item1;
             Persons person = entity.Item2;
             var user = entity.Item3;
 
-            GetDoctorDto getDoctorDto = new GetDoctorDto()
+            GetDetailedDoctorDto getDetailedDoctorDto = new GetDetailedDoctorDto()
             {
                 FirstName = person.FirstName,
                 LastName = person.LastName,
                 Gender = person.Gender,
+                DateOfBirth = person.DateOfBirth,
+                IdentificationNumber = person.IdentificationNumber,
+                
 
-                Email = user.Email,
-
-                AvailabilityModeId = doctor.AvailabilityModeId,
-                Bio = doctor.Bio,
+                DoctorID = doctor.DoctorID,
                 ChangeDate = doctor.UpdatedAt,
                 ClinicAddress = doctor.ClinicAddress,
                 ConsultationFee = doctor.ConsultationFee,
                 SpecialityID = doctor.SpecialtyID,
                 Education = doctor.Education,
+                LicenseNumber = doctor.LicenseNumber,
+                LicenseExpirationDate = doctor.LicenseExpirationDate,
+                AvailabilityModeId = doctor.AvailabilityModeId,
+                Bio     = doctor.Bio,   
+                YearsOfExperiencie = doctor.YearsOfExperience,
                 PhoneNumber = doctor.PhoneNumber,
-                YearsOfExperiencie = doctor.YearsOfExperience
+                
+                Email = user.Email,
+                Password = user.Password,
+                RoleID = user.RoleID,       
+
+            };
+
+            return getDetailedDoctorDto;
+        }
+
+        public GetSimpleDoctorDto ConvertEntityToGetSimpletDto((Doctors, Persons, Domain.Entities.Users.Users) entity)
+        {
+            Doctors doctor = entity.Item1;
+            Persons person = entity.Item2;
+            var user = entity.Item3;
+
+            GetSimpleDoctorDto getDoctorDto = new GetSimpleDoctorDto()
+            {
+                FirstName = person.FirstName,
+                LastName = person.LastName,
+                Gender = person.Gender,  
+
+                DoctorID = doctor.DoctorID,
+                ChangeDate = doctor.UpdatedAt,
+                ClinicAddress = doctor.ClinicAddress,
+                ConsultationFee = doctor.ConsultationFee,
+                SpecialityID = doctor.SpecialtyID,
+                Education = doctor.Education,
 
             };
 
@@ -84,7 +116,7 @@ namespace HealtSync.Application.DtoMapingServices.Users
         public (Doctors, Persons, Domain.Entities.Users.Users) ConvertUpdateDtoToEntity(DoctorUpdateDto updateDto)
         {
             Doctors doctor = new Doctors()
-            {   
+            {
                 DoctorID = updateDto.DoctorID,
                 AvailabilityModeId = updateDto.AvailabilityModeId,
                 Bio = updateDto.Bio,
@@ -116,7 +148,7 @@ namespace HealtSync.Application.DtoMapingServices.Users
                 Password = updateDto.Password,
                 RoleID = updateDto.RoleID,
                 CreatedAt = updateDto.ChangeDate
-               
+
 
             };
 
