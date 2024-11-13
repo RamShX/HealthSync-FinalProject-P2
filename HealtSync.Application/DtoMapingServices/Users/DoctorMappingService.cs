@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace HealtSync.Application.DtoMapingServices.Users
 {
-    public class DoctorMappingService : IDtoMapingService<(Doctors, Persons, Domain.Entities.Users.Users), DoctorSaveDto, DoctorUpdateDto, GetDoctorDto>
+    public class DoctorMappingService : IDtoMappingService<(Doctors, Persons, Domain.Entities.Users.Users), DoctorSaveDto, DoctorUpdateDto, GetDoctorDto>
     {
-        public GetDoctorDto EntityToGetDto((Doctors, Persons, Domain.Entities.Users.Users) entity)
+        public GetDoctorDto ConvertEntityToGetDto((Doctors, Persons, Domain.Entities.Users.Users) entity)
         {
             Doctors doctor = entity.Item1;
             Persons person = entity.Item2;
@@ -40,7 +40,7 @@ namespace HealtSync.Application.DtoMapingServices.Users
             return getDoctorDto;
         }
 
-        public (Doctors, Persons, Domain.Entities.Users.Users) SaveDtoToEntity(DoctorSaveDto saveDto)
+        public (Doctors, Persons, Domain.Entities.Users.Users) ConvertSaveDtoToEntity(DoctorSaveDto saveDto)
         {
             Doctors doctor = new Doctors()
             {
@@ -81,7 +81,7 @@ namespace HealtSync.Application.DtoMapingServices.Users
 
         }
 
-        public (Doctors, Persons, Domain.Entities.Users.Users) UpdateDtoToEntity(DoctorUpdateDto updateDto)
+        public (Doctors, Persons, Domain.Entities.Users.Users) ConvertUpdateDtoToEntity(DoctorUpdateDto updateDto)
         {
             Doctors doctor = new Doctors()
             {   

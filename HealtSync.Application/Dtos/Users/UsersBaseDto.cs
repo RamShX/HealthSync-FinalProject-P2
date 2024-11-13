@@ -9,7 +9,6 @@ namespace HealtSync.Application.Dtos.Users
         //Esta es la entidad base que contendrá los datos correspondientes a las entiddades persons y users
 
         //Correspondiente a Person
-   
         public string? FirstName { get; set; }
         public string? LastName { get; set; }
         public char Gender { get; set; }

@@ -2,10 +2,10 @@
 
 namespace HealtSync.Application.DtoMapingServices
 {
-    public interface IDtoMapingService <TEntity, TSaveDto, TUpdateDto, TGetDto> 
+    public interface IDtoMappingService <TEntity, TSaveDto, TUpdateDto, TGetDto> 
     {
-        public TEntity UpdateDtoToEntity(TUpdateDto updateDto);
-        public TEntity SaveDtoToEntity(TSaveDto saveDto);
-        public TGetDto EntityToGetDto(TEntity entity); 
+        public TEntity ConvertUpdateDtoToEntity(TUpdateDto updateDto);
+        public TEntity ConvertSaveDtoToEntity(TSaveDto saveDto);
+        public TGetDto ConvertEntityToGetDto(TEntity entity); 
     }
 }

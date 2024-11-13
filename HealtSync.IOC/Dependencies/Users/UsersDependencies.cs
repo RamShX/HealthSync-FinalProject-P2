@@ -19,6 +19,7 @@ namespace HealtSync.IOC.Dependencies.Users
 
             service.AddTransient<IEmployeesService, EmployeesService>();
             service.AddTransient<IDoctorsService, DoctorsService>();
+            service.AddTransient<IPatientsService, PatientsService>();
         }
     }
 }

@@ -1,10 +1,10 @@
 ﻿
-namespace HealtSync.Application.Dtos.Users.Employees
+namespace HealtSync.Application.Dtos.Users.Patients
 {
-    public class EmployeesSaveDto : EmployeesBaseDto
+    public class PatientSaveDto : PatientBaseDto
     {
-        public DateTime DateOfBirth { get; set; }
         public string? IdentificationNumber { get; set; }
+        public DateTime DateOfBIrth { get; set; }
         public string? Password { get; set; }
         public int RoleID { get; set; }
     }

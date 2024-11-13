@@ -146,7 +146,8 @@ namespace HealtSync.Application.Services.Users
                     UserID = personID,
                     Email = dto.Email,
                     Password = dto.Password,
-                    CreatedAt = dto.ChangeDate
+                    CreatedAt = dto.ChangeDate,
+                    RoleID = dto.RoleID
     
 
                 };

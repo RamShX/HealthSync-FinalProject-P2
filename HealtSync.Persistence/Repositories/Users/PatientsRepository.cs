@@ -21,7 +21,6 @@ namespace HealtSync.Persistence.Repositories.Users
             var validation = new Validation<Patients>();
 
             validation.ValidateNotNull(patient, "El Paciente");
-            validation.ValidateNumber(patient.PatientID, "El ID del paciente");
             validation.ValidateNotNullOrEmpty(patient.Address!, "La Dirección");
             validation.ValidateNotNullOrEmpty(patient.PhoneNumber!, "El número telefónico");
             validation.ValidateNotNullOrEmpty(patient.EmergencyContactName!, "El nombre del contacto de emergencia");
@@ -135,7 +134,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.GetEntityBy(id);
+                result = await base.GetEntityBy(id);
             }
             catch (Exception ex)
             {
@@ -155,7 +154,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                await base.GetAll();
+                result = await base.GetAll();
             }
             catch (Exception ex)
             {

@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using HealtSync.Domain.Entities.Users;
+using HealtSync.Application.Contracts.Users;
+using HealtSync.Application.Dtos.Users.Patients;
 
 namespace HealtSync.Users.Api.Controllers
 {
@@ -9,52 +11,63 @@ namespace HealtSync.Users.Api.Controllers
     [ApiController]
     public class PatientsController : ControllerBase
     {
-        private readonly IPatientsRepository _patientsRepository;
+        private readonly IPatientsService _patientsService;
 
-        public PatientsController(IPatientsRepository patientsRepository)
+        public PatientsController(IPatientsService patientsService)
         {
-            _patientsRepository = patientsRepository;
+            _patientsService = patientsService;
         }
 
         [HttpGet("GetPatients")]
         public async Task<IActionResult> Get()
         {
-            var result = await _patientsRepository.GetAll();
+            var result = await _patientsService.GetAll();
 
-            if (!result.Success)
+            if (!result.IsSuccess)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [HttpGet("GetPatientByID")]
+        public async Task<IActionResult> Get(int id)
+        {
+            var result = await _patientsService.GetById(id);
+
+            if (!result.IsSuccess)
                 return BadRequest(result);
 
             return Ok(result);
         }
 
         [HttpPost("SavePatient")]
-        public async Task<IActionResult> Post([FromBody] Patients patient)
+        public async Task<IActionResult> Post([FromBody] PatientSaveDto dto)
         {
-            var result = await _patientsRepository.Save(patient);
+            var result = await _patientsService.SaveAsync(dto);
 
-            if (!result.Success)
+            if (!result.IsSuccess)
                 return BadRequest(result);
 
             return Ok(result);
         }
 
         [HttpPut("ModifyPatient")]
-        public async Task<IActionResult> Put([FromBody] Patients patient)
+        public async Task<IActionResult> Put([FromBody] PatientUpdateDto dto)
         {
-            var result = await _patientsRepository.Update(patient);
+            var result = await _patientsService.UpdateAsync(dto);
 
-            if (!result.Success)
+            if (!result.IsSuccess)
                 return BadRequest(result);
 
             return Ok(result);
         }
 
         [HttpDelete("DisablePatient")]
-        public async Task<IActionResult> Delete([FromBody] Patients patient)
+        public async Task<IActionResult> Delete([FromBody] int id)
         {
-            var result = await _patientsRepository.Remove(patient);
+            var result = await _patientsService.DisableAsync(id);
 
-            if (!result.Success)
+            if (!result.IsSuccess)
                 return BadRequest(result);
 
             return Ok(result);

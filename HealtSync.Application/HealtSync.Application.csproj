@@ -13,7 +13,6 @@
     <Folder Include="Dtos\Users\Employees\DtoConverters\" />
     <Folder Include="Dtos\System\" />
     <Folder Include="Dtos\Users\Base\" />
-    <Folder Include="Dtos\Users\Patients\" />
   </ItemGroup>
 
   <ItemGroup>

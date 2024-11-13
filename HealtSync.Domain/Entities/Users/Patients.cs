@@ -15,7 +15,7 @@ namespace HealtSync.Domain.Entities.Users
         public string? EmergencyContactPhone { get; set; }
         public char BloodType { get; set; }
         public string? Allergies { get; set; }
-        public string? InsuranceProviderID {  get; set; }
+        public int InsuranceProviderID {  get; set; }
 
     }
 }

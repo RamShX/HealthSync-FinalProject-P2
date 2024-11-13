@@ -77,7 +77,7 @@ namespace HealtSync.Application.Services.Users
 
                                                   var doctorTuple = (doctor, person, user);
 
-                                                  GetDoctorDto getDoctorDto = doctorMapping.EntityToGetDto(doctorTuple!);
+                                                  GetDoctorDto getDoctorDto = doctorMapping.ConvertEntityToGetDto(doctorTuple!);
 
                                                   return getDoctorDto;
 
@@ -122,7 +122,7 @@ namespace HealtSync.Application.Services.Users
 
                 DoctorMappingService doctorMapping = new();
 
-                GetDoctorDto getDoctorDto = doctorMapping.EntityToGetDto(doctorTuple);
+                GetDoctorDto getDoctorDto = doctorMapping.ConvertEntityToGetDto(doctorTuple);
 
                 doctorResponse.IsSuccess = doctorResult.Success && personResult.Success && userResult.Success;
 
@@ -148,7 +148,7 @@ namespace HealtSync.Application.Services.Users
             {
                 DoctorMappingService doctorMapping = new();
                
-                var doctorTuple = doctorMapping.SaveDtoToEntity(dto);
+                var doctorTuple = doctorMapping.ConvertSaveDtoToEntity(dto);
 
                 Doctors doctor = doctorTuple.Item1;
                 Persons person = doctorTuple.Item2;
@@ -187,7 +187,7 @@ namespace HealtSync.Application.Services.Users
             {
                 DoctorMappingService doctorMapping = new();
 
-                var doctorTuple = doctorMapping.UpdateDtoToEntity(dto);
+                var doctorTuple = doctorMapping.ConvertUpdateDtoToEntity(dto);
 
                 Doctors doctor = doctorTuple.Item1;
                 Persons person = doctorTuple.Item2;
