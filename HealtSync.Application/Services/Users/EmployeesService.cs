@@ -146,7 +146,6 @@ namespace HealtSync.Application.Services.Users
                     UserID = personID,
                     Email = dto.Email,
                     Password = dto.Password,
-                    RoleID = dto.RoleID,
                     CreatedAt = dto.ChangeDate
     
 
@@ -194,7 +193,7 @@ namespace HealtSync.Application.Services.Users
 
                 userToUpdate.Email = dto.Email;
                 userToUpdate.Password = dto.Password;
-                userToUpdate.RoleID = dto.RoleID;
+                
 
                 var resultUpdateEmployee = await _employeesRepository.Update(employeeToUpdate);
                 var resultUpdateUser = await _usersRepository.Update(userToUpdate);

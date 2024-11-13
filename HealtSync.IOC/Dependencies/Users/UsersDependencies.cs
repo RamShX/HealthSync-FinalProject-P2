@@ -18,6 +18,7 @@ namespace HealtSync.IOC.Dependencies.Users
             service.AddScoped<IEmployeesRepository, EmployeesRepository>();
 
             service.AddTransient<IEmployeesService, EmployeesService>();
+            service.AddTransient<IDoctorsService, DoctorsService>();
         }
     }
 }

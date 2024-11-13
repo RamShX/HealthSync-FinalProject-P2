@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace HealtSync.Application.Contracts.Users
 {
-    internal interface IDoctorService : IBaseService<DoctorResponse, DoctorSaveDto, DoctorUpdateDto>
+    public interface IDoctorsService : IBaseService<DoctorResponse, DoctorSaveDto, DoctorUpdateDto>
     {
         Task<DoctorResponse> GetByAvailabilityDate(DateTime? availabilityDate);
     }

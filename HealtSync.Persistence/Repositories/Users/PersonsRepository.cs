@@ -78,7 +78,7 @@ namespace HealtSync.Persistence.Repositories.Users
 
             try
             {
-                result = await base.Save(entity);
+                result = await base.Update(entity);
             }
             catch (Exception ex)
             {

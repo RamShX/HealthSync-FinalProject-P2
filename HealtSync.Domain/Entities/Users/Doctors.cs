@@ -9,11 +9,11 @@ namespace HealtSync.Domain.Entities.Users
     {
         [Key]
         public int DoctorID { get; set; }
-        public int SpecialityID { get; set; }
+        public int SpecialtyID { get; set; }
         public string? Education { get; set; }
         public string? LicenseNumber { get; set; }
         public string? PhoneNumber { get; set; }
-        public  int YearsOfExperiencie { get; set; }
+        public  int YearsOfExperience { get; set; }
         public string? Bio { get; set; }
         public decimal ConsultationFee { get; set; }
         public string? ClinicAddress { get; set; }

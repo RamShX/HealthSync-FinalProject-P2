@@ -30,10 +30,10 @@ namespace HealtSync.Application.DtoMapingServices.Users
                 ChangeDate = doctor.UpdatedAt,
                 ClinicAddress = doctor.ClinicAddress,
                 ConsultationFee = doctor.ConsultationFee,
-                SpecialityID = doctor.SpecialityID,
+                SpecialityID = doctor.SpecialtyID,
                 Education = doctor.Education,
                 PhoneNumber = doctor.PhoneNumber,
-                YearsOfExperiencie = doctor.YearsOfExperiencie
+                YearsOfExperiencie = doctor.YearsOfExperience
 
             };
 
@@ -53,8 +53,8 @@ namespace HealtSync.Application.DtoMapingServices.Users
                 LicenseExpirationDate = saveDto.LicenseExpirationDate,
                 LicenseNumber = saveDto.LicenseNumber,
                 PhoneNumber = saveDto.PhoneNumber,
-                SpecialityID = saveDto.SpecialityID,
-                YearsOfExperiencie = saveDto.YearsOfExperiencie
+                SpecialtyID = saveDto.SpecialityID,
+                YearsOfExperience = saveDto.YearsOfExperiencie
             };
 
             Persons person = new Persons()
@@ -71,6 +71,7 @@ namespace HealtSync.Application.DtoMapingServices.Users
                 Email = saveDto.Email,
                 Password = saveDto.Password,
                 RoleID = saveDto.RoleID,
+                CreatedAt = saveDto.ChangeDate
 
             };
 
@@ -94,8 +95,8 @@ namespace HealtSync.Application.DtoMapingServices.Users
                 LicenseExpirationDate = updateDto.LicenseExpirationDate,
                 LicenseNumber = updateDto.LicenseNumber,
                 PhoneNumber = updateDto.PhoneNumber,
-                SpecialityID = updateDto.SpecialityID,
-                YearsOfExperiencie = updateDto.YearsOfExperiencie
+                SpecialtyID = updateDto.SpecialityID,
+                YearsOfExperience = updateDto.YearsOfExperiencie
             };
 
             Persons person = new Persons()
@@ -114,6 +115,8 @@ namespace HealtSync.Application.DtoMapingServices.Users
                 Email = updateDto.Email,
                 Password = updateDto.Password,
                 RoleID = updateDto.RoleID,
+                CreatedAt = updateDto.ChangeDate
+               
 
             };
 

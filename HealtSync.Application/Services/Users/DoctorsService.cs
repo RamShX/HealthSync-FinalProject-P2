@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace HealtSync.Application.Services.Users
 {
-    public class DoctorsService : IDoctorService
+    public class DoctorsService : IDoctorsService
     {
 
         private readonly IDoctorsRepository _doctorsRepository;
@@ -34,7 +34,7 @@ namespace HealtSync.Application.Services.Users
             try
             {
                 var getResult = await _doctorsRepository.GetEntityBy(id);
-                Doctors doctor = getResult.Data();
+                Doctors doctor = getResult.Data!;
 
                 doctor.IsActive = false;
                 var updateResult = await _doctorsRepository.Update(doctor);
@@ -77,7 +77,7 @@ namespace HealtSync.Application.Services.Users
 
                                                   var doctorTuple = (doctor, person, user);
 
-                                                  GetDoctorDto getDoctorDto = doctorMapping.EntityToGetDto(doctorTuple);
+                                                  GetDoctorDto getDoctorDto = doctorMapping.EntityToGetDto(doctorTuple!);
 
                                                   return getDoctorDto;
 
@@ -114,7 +114,7 @@ namespace HealtSync.Application.Services.Users
                 var userResult = await _usersRepository.GetEntityBy(id);
 
                 Doctors doctor = doctorResult.Data!;
-                Persons person = doctorResult.Data!;
+                Persons person = personResult.Data!;
                 Domain.Entities.Users.Users user = userResult.Data!;
 
                 var doctorTuple = (doctor, person, user);
@@ -126,22 +126,90 @@ namespace HealtSync.Application.Services.Users
 
                 doctorResponse.IsSuccess = doctorResult.Success && personResult.Success && userResult.Success;
 
+                doctorResponse.Model = getDoctorDto; 
+
 
             }
-            catch
+            catch(Exception ex)
             {
+                doctorResponse.IsSuccess = false;
+                doctorResponse.Message = "Ocurrió un error obteniendo el doctor";
+                _logger.LogError(doctorResponse.Message, ex);
+            }
+
+            return doctorResponse;
+        }
+
+        public async Task<DoctorResponse> SaveAsync(DoctorSaveDto dto)
+        {
+            DoctorResponse doctorResponse = new DoctorResponse();
+
+            try
+            {
+                DoctorMappingService doctorMapping = new();
+               
+                var doctorTuple = doctorMapping.SaveDtoToEntity(dto);
+
+                Doctors doctor = doctorTuple.Item1;
+                Persons person = doctorTuple.Item2;
+                Domain.Entities.Users.Users user = doctorTuple.Item3;
+
+                var savePersonResult = await _personsRepository.Save(person);
+
+                int personID = person.PersonID;
+
+                doctor.DoctorID = personID;
+                user.UserID = personID;
+
+                var saveDoctorResult = await _doctorsRepository.Save(doctor);
+                var saveUserResult = await _usersRepository.Save(user);
+
+                doctorResponse.IsSuccess = saveDoctorResult.Success && savePersonResult.Success && saveUserResult.Success;
+
+                doctorResponse.Message = doctorResponse.IsSuccess ? "El doctor se ha guardado correctamente." : "Hubo un error guardando el doctor";
 
             }
+            catch(Exception ex)
+            {
+                doctorResponse.IsSuccess = false;
+                doctorResponse.Message = "Hubo un error guardando el doctor";
+                _logger.LogError(doctorResponse.Message, ex);
+            }
+
+            return doctorResponse;
         }
 
-        public Task<DoctorResponse> SaveAsync(DoctorSaveDto dto)
+        public async Task<DoctorResponse> UpdateAsync(DoctorUpdateDto dto)
         {
-            throw new NotImplementedException();
-        }
+            DoctorResponse doctorResponse = new DoctorResponse();
 
-        public Task<DoctorResponse> UpdateAsync(DoctorUpdateDto dto)
-        {
-            throw new NotImplementedException();
+            try
+            {
+                DoctorMappingService doctorMapping = new();
+
+                var doctorTuple = doctorMapping.UpdateDtoToEntity(dto);
+
+                Doctors doctor = doctorTuple.Item1;
+                Persons person = doctorTuple.Item2;
+                Domain.Entities.Users.Users user = doctorTuple.Item3;
+
+                var updatePersonResult = await _personsRepository.Update(person);
+                var updateDoctorResult = await _doctorsRepository.Update(doctor);
+                var updateUserResult = await _usersRepository.Update(user);
+
+                doctorResponse.IsSuccess = updateDoctorResult.Success && updatePersonResult.Success && updateUserResult.Success;
+
+                doctorResponse.Message = doctorResponse.IsSuccess ? "El doctor se ha actualizado correctamente." : "Hubo un error actualizando el doctor";
+
+            }
+            catch (Exception ex)
+            {
+                doctorResponse.IsSuccess = false;
+                doctorResponse.Message = "Hubo un error actualizando el doctor";
+                _logger.LogError(doctorResponse.Message, ex);
+            }
+
+            return doctorResponse;
         }
     }
 }
