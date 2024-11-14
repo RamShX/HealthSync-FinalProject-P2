@@ -17,8 +17,10 @@ builder.Services.AddDbContext<HealtSyncContext>(options => options.UseSqlServer(
 builder.Services.AddScoped<IDoctorsRepository, DoctorsRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository >();
 builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
+builder.Services.AddScoped<IPatientsRepository, PatientsRepository>();
 
 builder.Services.AddTransient<IDoctorsService, DoctorsService>();
+builder.Services.AddTransient<IPatientsService, PatientsService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,30 +1,20 @@
-﻿@model HealtSync.Application.Dtos.Users.Doctors.DoctorSaveDto
+﻿@model HealtSync.Application.Dtos.Users.Patients.PatientUpdateDto
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-<h1>Add Doctor</h1>
+<h1>Edit Patient</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="LicenseNumber" class="control-label"></label>
-                <input asp-for="LicenseNumber" class="form-control" />
-                <span asp-validation-for="LicenseNumber" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LicenseExpirationDate" class="control-label"></label>
-                <input asp-for="LicenseExpirationDate" class="form-control" />
-                <span asp-validation-for="LicenseExpirationDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateOfBIrth" class="control-label"></label>
-                <input asp-for="DateOfBIrth" class="form-control" />
-                <span asp-validation-for="DateOfBIrth" class="text-danger"></span>
+                <label asp-for="PatientID" class="control-label"></label>
+                <input asp-for="PatientID" class="form-control" />
+                <span asp-validation-for="PatientID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="IdentificationNumber" class="control-label"></label>
@@ -32,29 +22,14 @@
                 <span asp-validation-for="IdentificationNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="DateOfBIrth" class="control-label"></label>
+                <input asp-for="DateOfBIrth" class="form-control" />
+                <span asp-validation-for="DateOfBIrth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="Password" class="control-label"></label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RoleID" class="control-label"></label>
-                <input asp-for="RoleID" class="form-control" />
-                <span asp-validation-for="RoleID" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="YearsOfExperiencie" class="control-label"></label>
-                <input asp-for="YearsOfExperiencie" class="form-control" />
-                <span asp-validation-for="YearsOfExperiencie" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Bio" class="control-label"></label>
-                <input asp-for="Bio" class="form-control" />
-                <span asp-validation-for="Bio" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhoneNumber" class="control-label"></label>
-                <input asp-for="PhoneNumber" class="form-control" />
-                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -62,29 +37,44 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="AvailabilityModeId" class="control-label"></label>
-                <input asp-for="AvailabilityModeId" class="form-control" />
-                <span asp-validation-for="AvailabilityModeId" class="text-danger"></span>
+                <label asp-for="RoleID" class="control-label"></label>
+                <input asp-for="RoleID" class="form-control" />
+                <span asp-validation-for="RoleID" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SpecialityID" class="control-label"></label>
-                <input asp-for="SpecialityID" class="form-control" />
-                <span asp-validation-for="SpecialityID" class="text-danger"></span>
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Education" class="control-label"></label>
-                <input asp-for="Education" class="form-control" />
-                <span asp-validation-for="Education" class="text-danger"></span>
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ClinicAddress" class="control-label"></label>
-                <input asp-for="ClinicAddress" class="form-control" />
-                <span asp-validation-for="ClinicAddress" class="text-danger"></span>
+                <label asp-for="EmergencyContactName" class="control-label"></label>
+                <input asp-for="EmergencyContactName" class="form-control" />
+                <span asp-validation-for="EmergencyContactName" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ConsultationFee" class="control-label"></label>
-                <input asp-for="ConsultationFee" class="form-control" />
-                <span asp-validation-for="ConsultationFee" class="text-danger"></span>
+                <label asp-for="EmergencyContactPhone" class="control-label"></label>
+                <input asp-for="EmergencyContactPhone" class="form-control" />
+                <span asp-validation-for="EmergencyContactPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BloodType" class="control-label"></label>
+                <input asp-for="BloodType" class="form-control" />
+                <span asp-validation-for="BloodType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Allergies" class="control-label"></label>
+                <input asp-for="Allergies" class="form-control" />
+                <span asp-validation-for="Allergies" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InsuranceProviderID" class="control-label"></label>
+                <input asp-for="InsuranceProviderID" class="form-control" />
+                <span asp-validation-for="InsuranceProviderID" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label"></label>
@@ -107,7 +97,7 @@
                 <span asp-validation-for="ChangeDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>

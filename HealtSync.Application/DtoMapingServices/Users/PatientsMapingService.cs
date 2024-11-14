@@ -7,34 +7,56 @@ using HealtSync.Domain.Entities.Users;
 
 namespace HealtSync.Application.DtoMapingServices.Users
 {
-    internal class PatientsMapingService : IDtoMappingService<(Patients, Persons, Domain.Entities.Users.Users), PatientSaveDto, PatientUpdateDto, GetPatientDto, GetDetailedPatientDto>
+    internal class PatientsMapingService : IDtoMappingService<(Patients, Persons, Domain.Entities.Users.Users), PatientSaveDto, PatientUpdateDto, GetSimplePatientDto, GetDetailedPatientDto>
     {
         public GetDetailedPatientDto ConvertEntityToGetDetailedDto((Patients, Persons, Domain.Entities.Users.Users) entity)
         {
-            throw new NotImplementedException();
+            Patients patient = entity.Item1 as Patients;
+            Persons person = entity.Item2 as Persons;
+            var user = entity.Item3 as Domain.Entities.Users.Users;
+             
+            GetDetailedPatientDto getPatientDto = new()
+            {
+                FirstName = person.FirstName,
+                LastName = person.LastName,
+                Gender = person.Gender,
+                DateOfBIrth = person.DateOfBirth,
+                IdentificationNumber = person.IdentificationNumber,
+                
+                Allergies = patient.Allergies,
+                Address = patient.Address,
+                BloodType = patient.BloodType,
+                EmergencyContactName = patient.EmergencyContactName,
+                EmergencyContactPhone = patient.EmergencyContactPhone,
+                InsuranceProviderID = patient.InsuranceProviderID,
+                PatientID = patient.PatientID,
+                PhoneNumber = patient.PhoneNumber,
+
+                Email = user.Email = user.Email,
+                Password = user.Password,
+                RoleID = user.RoleID,
+              
+                ChangeDate = patient.UpdatedAt,
+
+            };
+
+            return getPatientDto;
         }
 
-        public GetPatientDto ConvertEntityToGetSimpletDto((Patients, Persons, Domain.Entities.Users.Users) entity)
+        public GetSimplePatientDto ConvertEntityToGetSimpletDto((Patients, Persons, Domain.Entities.Users.Users) entity)
         {
             Patients patient = entity.Item1 as Patients;
             Persons person = entity.Item2 as Persons;
             var user = entity.Item3 as Domain.Entities.Users.Users;
 
-            GetPatientDto getPatientDto = new()
+            GetSimplePatientDto getPatientDto = new()
             {
                 FirstName = person.FirstName,
                 LastName = person.LastName,
                 Gender = person.Gender,
+                PatientID = patient.PatientID,
 
-                Address = patient.Address,
-                Allergies = patient.Allergies,
-                BloodType = patient.BloodType,
                 ChangeDate = patient.UpdatedAt,
-                EmergencyContactName = patient.EmergencyContactName,
-                EmergencyContactPhone = patient.EmergencyContactPhone,
-                InsuranceProviderID = patient.InsuranceProviderID,
-                PhoneNumber = patient.PhoneNumber,
-
 
             };
 

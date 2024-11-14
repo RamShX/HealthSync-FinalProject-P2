@@ -1,5 +1,6 @@
 ﻿using HealtSync.Application.Contracts.Users;
 using HealtSync.Application.Dtos.Users.Employees;
+using HealtSync.Application.Dtos.Users.Employees.DtoConverters;
 using HealtSync.Application.Response.Users.Employees;
 using HealtSync.Domain.Entities.Users;
 using HealtSync.Persistence.Interfaces.Users;
@@ -88,14 +89,20 @@ namespace HealtSync.Application.Services.Users
                 Persons person = personResult.Data!;
                 Domain.Entities.Users.Users user = userResult.Data!;
 
-                GetEmployeeDto employeeDto = new GetEmployeeDto()
+                GetDetailedEmployeeDto employeeDto = new GetDetailedEmployeeDto()
                 {
-                    EmployeeID = employee.EmployeeID,
+                    EmployeeId = employee.EmployeeID,
                     FirstName = person.FirstName,
                     LastName = person.LastName,
                     Gender = person.Gender,
                     JobTitle = employee.JobTitle,
                     RoleID = user.RoleID,
+                    DateOfBirth = person.DateOfBirth,
+                    Email = user.Email,
+                    Password = user.Password,
+                    ChangeDate = user.CreatedAt,
+                    IdentificationNumber = person.IdentificationNumber,
+                    PhoneNumber = employee.PhoneNumber
 
                 };
 
