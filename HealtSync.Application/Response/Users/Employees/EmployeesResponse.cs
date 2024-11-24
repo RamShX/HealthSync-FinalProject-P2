@@ -6,6 +6,6 @@ namespace HealtSync.Application.Response.Users.Employees
 {
     public class EmployeesResponse : BaseResponse
     {
-        public dynamic? model { get; set; }
+        public dynamic? Model { get; set; }
     }
 }

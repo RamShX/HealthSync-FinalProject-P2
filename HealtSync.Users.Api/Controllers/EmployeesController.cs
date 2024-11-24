@@ -41,7 +41,7 @@ namespace HealtSync.Users.Api.Controllers
         }
 
         [HttpPost("SaveEmployee")]
-        public async Task<IActionResult> Post([FromBody ]EmployeesSaveDto employeeSaveDto)
+        public async Task<IActionResult> Post([FromBody ]EmployeeSaveDto employeeSaveDto)
         {
             var result = await _employeesService.SaveAsync(employeeSaveDto);
 
@@ -52,7 +52,7 @@ namespace HealtSync.Users.Api.Controllers
         }
 
         [HttpPut("ModifyEmployee")]
-        public async Task<IActionResult> Put([FromBody] EmployeesUpdateDto employeeUpdateDto)
+        public async Task<IActionResult> Put([FromBody] EmployeeUpdateDto employeeUpdateDto)
         {
             var result = await _employeesService.UpdateAsync(employeeUpdateDto);
 

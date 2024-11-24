@@ -5,7 +5,7 @@ using HealtSync.Application.Response.Users.Employees;
 
 namespace HealtSync.Application.Contracts.Users
 {
-    public interface IEmployeesService : IBaseService<EmployeesResponse, EmployeesSaveDto, EmployeesUpdateDto>
+    public interface IEmployeesService : IBaseService<EmployeesResponse, EmployeeSaveDto, EmployeeUpdateDto>
     {
     }
 }

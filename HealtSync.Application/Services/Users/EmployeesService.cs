@@ -42,13 +42,13 @@ namespace HealtSync.Application.Services.Users
                 var usersList = (List<Domain.Entities.Users.Users>) usersResult.Data!;
 
 
-                List<GetEmployeeDto> employees = employeesList
+                List<GetSimpleEmployeeDto> employees = employeesList
                                                 .Select(employee =>
                                                 {
                                                     var person = personsList.FirstOrDefault(person => employee.EmployeeID == person.PersonID);
                                                     var user = usersList.FirstOrDefault(user => employee.EmployeeID == user.UserID);
 
-                                                    return new GetEmployeeDto
+                                                    return new GetSimpleEmployeeDto
                                                     {
                                                         EmployeeID = employee.EmployeeID,
                                                         JobTitle = employee.JobTitle,
@@ -61,7 +61,7 @@ namespace HealtSync.Application.Services.Users
                                                 }).ToList();
 
                 employeesResponse.IsSuccess = employeesResult.Success && personsResult.Success && usersResult.Success;
-                employeesResponse.model = employees;
+                employeesResponse.Model = employees;
             }
             catch (Exception ex)
             {
@@ -107,7 +107,7 @@ namespace HealtSync.Application.Services.Users
                 };
 
                 employeesResponse.IsSuccess = employeeResult.Success && userResult.Success && personResult.Success;
-                employeesResponse.model = employeeDto;
+                employeesResponse.Model = employeeDto;
 
             }
             catch (Exception ex)
@@ -121,7 +121,7 @@ namespace HealtSync.Application.Services.Users
 
         }
 
-        public async Task<EmployeesResponse> SaveAsync(EmployeesSaveDto dto)
+        public async Task<EmployeesResponse> SaveAsync(EmployeeSaveDto dto)
         {
             EmployeesResponse employeesResponse = new EmployeesResponse();
 
@@ -175,7 +175,7 @@ namespace HealtSync.Application.Services.Users
             return employeesResponse;
         }
 
-        public async Task<EmployeesResponse> UpdateAsync(EmployeesUpdateDto dto)
+        public async Task<EmployeesResponse> UpdateAsync(EmployeeUpdateDto dto)
         {
             EmployeesResponse employeeResponse = new();
 

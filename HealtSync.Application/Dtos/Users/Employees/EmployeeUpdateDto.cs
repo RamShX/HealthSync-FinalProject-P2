@@ -1,7 +1,7 @@
 ﻿
 namespace HealtSync.Application.Dtos.Users.Employees
 {
-    public class EmployeesUpdateDto : EmployeesBaseDto
+    public class EmployeeUpdateDto : EmployeeBaseDto
     {
         public int EmployeeId { get; set; }
         public DateTime DateOfBirth { get; set; }

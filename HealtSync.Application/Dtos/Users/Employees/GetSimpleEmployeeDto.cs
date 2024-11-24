@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HealtSync.Application.Dtos.Users.Employees
 {
-    public class GetEmployeeDto 
+    public class GetSimpleEmployeeDto 
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }

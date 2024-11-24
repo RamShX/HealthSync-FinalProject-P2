@@ -18,9 +18,12 @@ builder.Services.AddScoped<IDoctorsRepository, DoctorsRepository>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository >();
 builder.Services.AddScoped<IPersonsRepository, PersonsRepository>();
 builder.Services.AddScoped<IPatientsRepository, PatientsRepository>();
+builder.Services.AddScoped<IEmployeesRepository, EmployeesRepository>();
 
 builder.Services.AddTransient<IDoctorsService, DoctorsService>();
 builder.Services.AddTransient<IPatientsService, PatientsService>();
+builder.Services.AddTransient<IEmployeesService, EmployeesService>();
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
