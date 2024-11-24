@@ -1,4 +1,5 @@
 ﻿using HealtSync.Web.Models;
+using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -31,8 +32,7 @@ namespace HealtSync.Web.Controllers
                 }
                 else
                 {
-                    ViewBag.Message("xd");
-                   
+                    ViewBag.Message(doctorGetAllResultModel.Message);
                     
                 }
             }
@@ -42,9 +42,33 @@ namespace HealtSync.Web.Controllers
         }
 
         // GET: DoctorApmController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            string baseUrl = "http://localhost:5289/api/";
+
+            DoctorGetByIdResultModel doctorGetByIdResultModel = new();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(baseUrl);
+
+                var responseTask = await client.GetAsync($"Doctors/GetDoctorById?id={id}");
+
+                if (responseTask.IsSuccessStatusCode)
+                {
+                    string response = await responseTask.Content.ReadAsStringAsync();
+
+                    doctorGetByIdResultModel = JsonConvert.DeserializeObject<DoctorGetByIdResultModel>(response)!;
+
+                    return View(doctorGetByIdResultModel.Data);
+                }
+                else
+                {
+                    ViewBag.Message(doctorGetByIdResultModel.Message);
+                }
+
+                return View();
+            }
         }
 
         // GET: DoctorApmController/Create
