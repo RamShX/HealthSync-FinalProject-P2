@@ -1,5 +1,6 @@
 ﻿using HealtSync.Application.Dtos.Users.Doctors;
 using HealtSync.Web.Models;
+using HealtSync.Web.Services.Users;
 using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,67 +11,29 @@ namespace HealtSync.Web.Controllers
 {
     public class DoctorAdmController : Controller
     {
-        // GET: DoctorApmController
+
+        private readonly IDoctorApiClientService _doctorClientService;
+
+        public DoctorAdmController(IDoctorApiClientService doctorClientService)
+        {
+            _doctorClientService = doctorClientService; 
+        }
+
         public async Task<IActionResult> Index()
         {
-            string baseUrl = "http://localhost:5289/api/";
 
-            DoctorGetAllResultModel doctorGetAllResultModel = new();
+            DoctorGetAllResultModel doctorGetAllResultModel =await _doctorClientService.GetDoctors();
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseUrl);
-
-                var responseTask = await client.GetAsync("Doctors/GetDoctors");
-
-                if (responseTask.IsSuccessStatusCode)
-                {
-                    string response = await responseTask.Content.ReadAsStringAsync();
-
-                    doctorGetAllResultModel = JsonConvert.DeserializeObject<DoctorGetAllResultModel>(response)!;
-
-
-                    return View(doctorGetAllResultModel.Data);
-                }
-                else
-                {
-                    ViewBag.Message(doctorGetAllResultModel.Message);
-
-                }
-            }
-
-
-            return View();
+            return View(doctorGetAllResultModel.Data);
         }
 
         // GET: DoctorApmController/Details/5
         public async Task<IActionResult> Details(int id)
         {
-            string baseUrl = "http://localhost:5289/api/";
+          
+            DoctorGetByIdResultModel doctorGetByIdResultModel = await _doctorClientService.GetDoctorGetById(id);
 
-            DoctorGetByIdResultModel doctorGetByIdResultModel = new();
-
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(baseUrl);
-
-                var responseTask = await client.GetAsync($"Doctors/GetDoctorById?id={id}");
-
-                if (responseTask.IsSuccessStatusCode)
-                {
-                    string response = await responseTask.Content.ReadAsStringAsync();
-
-                    doctorGetByIdResultModel = JsonConvert.DeserializeObject<DoctorGetByIdResultModel>(response)!;
-
-                    return View(doctorGetByIdResultModel.Data);
-                }
-                else
-                {
-                    ViewBag.Message(doctorGetByIdResultModel.Message);
-                }
-
-                return View();
-            }
+            return View(doctorGetByIdResultModel.Data);
         }
 
 
@@ -145,8 +108,6 @@ namespace HealtSync.Web.Controllers
                         string response = await responseTask.Content.ReadAsStringAsync();
 
                         model = JsonConvert.DeserializeObject<BaseModel>(response)!;
-
-
 
                         if (!model.IsSuccess)
                         {

@@ -4,6 +4,8 @@ using HealtSync.Persistence.Interfaces.Users;
 using HealtSync.Persistence.Repositories.Users;
 using HealtSync.Application.Contracts.Users;
 using HealtSync.Application.Services.Users;
+using HealtSync.Web.Services.Base;
+using HealtSync.Web.Services.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +26,12 @@ builder.Services.AddTransient<IDoctorsService, DoctorsService>();
 builder.Services.AddTransient<IPatientsService, PatientsService>();
 builder.Services.AddTransient<IEmployeesService, EmployeesService>();
 
+builder.Services.AddHttpClient<IHttpService, HttpService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiConfig:UrlBase"]!);
+});
+
+builder.Services.AddTransient<IDoctorApiClientService, DoctorApiClientService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
