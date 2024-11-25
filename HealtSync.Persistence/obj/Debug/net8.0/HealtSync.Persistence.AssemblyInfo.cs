@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("HealtSync.Persistence")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+cbc6493f6afdc7e28a30d4d269b50123854ee014")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+59831763af81edb1e62b82f0b2e54b7b809bc398")]
 [assembly: System.Reflection.AssemblyProductAttribute("HealtSync.Persistence")]
 [assembly: System.Reflection.AssemblyTitleAttribute("HealtSync.Persistence")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

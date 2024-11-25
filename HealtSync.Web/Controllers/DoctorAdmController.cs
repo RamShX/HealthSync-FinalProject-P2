@@ -41,43 +41,14 @@ namespace HealtSync.Web.Controllers
         {
             return View();
         }
-
         // POST: DoctorApmController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DoctorSaveDto doctorSaveDto)
         {
-            BaseModel model = new();
+            BaseModel model = await _doctorClientService.SaveDoctor(doctorSaveDto);
 
-            try
-            {
-                string baseUrl = "http://localhost:5289/api/";
-
-                using (var client = new HttpClient())
-                {
-                    client.BaseAddress = new Uri(baseUrl);
-
-                    var responseTask = await client.PostAsJsonAsync<DoctorSaveDto>("Doctors/SaveDoctor", doctorSaveDto);
-
-                    if (responseTask.IsSuccessStatusCode)
-                    {
-                        string response = await responseTask.Content.ReadAsStringAsync();
-
-                        return RedirectToAction(nameof(Index));
-
-
-                    }
-                    else
-                    {
-                        return View();
-                    }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                return View();
-            }
+            return model.IsSuccess ? RedirectToAction(nameof(Index)) : View();
         }
 
         public async Task<IActionResult> Edit(int id)
@@ -93,6 +64,11 @@ namespace HealtSync.Web.Controllers
         {
             BaseModel model = new();
 
+            _doctorClientService.UpdateDoctor(doctorUpdateDto);
+
+            return model.IsSuccess ? RedirectToAction(nameof(Index)) : View();
+
+            /*
             try
             {
                 string baseUrl = "http://localhost:5289/api/";
@@ -128,7 +104,7 @@ namespace HealtSync.Web.Controllers
             catch (Exception ex)
             {
                 return View();
-            }
+            }*/
         }
 
     }

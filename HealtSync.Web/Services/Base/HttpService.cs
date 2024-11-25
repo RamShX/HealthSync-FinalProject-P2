@@ -21,7 +21,7 @@ namespace HealtSync.Web.Services.Base
 
             return JsonConvert.DeserializeObject<T>(jsonResponse)!;
         }
-        public virtual async Task<T> PostAsync<T>(string url, T data)
+        public virtual async Task<T> PostAsync<T, T2>(string url, T2 data)
         {
             var response = await _httpClient.PostAsJsonAsync(url, data);              
             response.EnsureSuccessStatusCode();
@@ -38,7 +38,7 @@ namespace HealtSync.Web.Services.Base
       
         }
 
-        public async Task<T> PutAsync<T>(string url, T data)
+        public async Task<T> PutAsync<T, T2>(string url, T2 data)
         {
             var response = await _httpClient.PutAsJsonAsync(url, data);
             response.EnsureSuccessStatusCode();

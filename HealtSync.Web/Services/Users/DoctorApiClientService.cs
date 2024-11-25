@@ -53,34 +53,46 @@ namespace HealtSync.Web.Services.Users
 
         public async Task<BaseModel> SaveDoctor(DoctorSaveDto doctorSaveDto)
         {
-            BaseModel resultModel = new();
+            BaseModel responseModel = new();
 
             try
             {
-                resultModel = await _httpService.PostAsync<BaseModel>("Doctors/SaveDoctor", doctorSaveDto);
+                responseModel = await _httpService.PostAsync<BaseModel, DoctorSaveDto>("Doctors/SaveDoctor", doctorSaveDto);
             }
             catch (Exception ex)
             {
-                doctorGetByIdResultModel.IsSuccess = false;
-                doctorGetByIdResultModel.Message = "Ocurrió un error obteniendo los doctores";
-                _logger.LogError($"{doctorGetByIdResultModel.Message}: {ex.ToString()}");
+                responseModel.IsSuccess = false;
+                responseModel.Message = "Ocurrió un error guardando los doctores";
+                _logger.LogError($"{responseModel.Message}: {ex.ToString()}");
             }
 
-            return doctorGetByIdResultModel;
+            return responseModel;
         }
 
-        public Task<BaseModel> UpdateDoctor(DoctorUpdateDto doctorUpdateDto)
+        public async Task<BaseModel> UpdateDoctor(DoctorUpdateDto doctorUpdateDto)
         {
 
-            throw new NotImplementedException();
+            BaseModel responseModel = new();
+
+            try
+            {
+                responseModel = await _httpService.PutAsync<BaseModel, DoctorUpdateDto>("Doctors/UpdateDoctor", doctorUpdateDto);
+            }
+            catch (Exception ex)
+            {
+                responseModel.IsSuccess = false;
+                responseModel.Message = "Ocurri un error actualizando el doctor";
+                _logger.LogError(ex.Message);
+            }
+
+            return responseModel;
+
         }
 
-        public Task<BaseModel> DisableDoctor()
+
+        public Task<BaseModel> DisableDoctor(int id)
         {
             throw new NotImplementedException();
         }
-
-        
-
     }
 }
