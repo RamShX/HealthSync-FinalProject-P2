@@ -1,8 +1,10 @@
-﻿using HealtSync.Web.Models;
+﻿using HealtSync.Application.Dtos.Users.Doctors;
+using HealtSync.Web.Models;
 using Humanizer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 namespace HealtSync.Web.Controllers
 {
@@ -26,14 +28,14 @@ namespace HealtSync.Web.Controllers
                     string response = await responseTask.Content.ReadAsStringAsync();
 
                     doctorGetAllResultModel = JsonConvert.DeserializeObject<DoctorGetAllResultModel>(response)!;
-                    
+
 
                     return View(doctorGetAllResultModel.Data);
                 }
                 else
                 {
                     ViewBag.Message(doctorGetAllResultModel.Message);
-                    
+
                 }
             }
 
@@ -71,7 +73,7 @@ namespace HealtSync.Web.Controllers
             }
         }
 
-        // GET: DoctorApmController/Create
+
         public ActionResult Create()
         {
             return View();
@@ -80,34 +82,89 @@ namespace HealtSync.Web.Controllers
         // POST: DoctorApmController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create(DoctorSaveDto doctorSaveDto)
         {
+            BaseModel model = new();
+
             try
             {
-                return RedirectToAction(nameof(Index));
+                string baseUrl = "http://localhost:5289/api/";
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseUrl);
+
+                    var responseTask = await client.PostAsJsonAsync<DoctorSaveDto>("Doctors/SaveDoctor", doctorSaveDto);
+
+                    if (responseTask.IsSuccessStatusCode)
+                    {
+                        string response = await responseTask.Content.ReadAsStringAsync();
+
+                        return RedirectToAction(nameof(Index));
+
+
+                    }
+                    else
+                    {
+                        return View();
+                    }
+
+                }
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
         }
 
-        // GET: DoctorApmController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
-            return View();
+
+           return await Details(id);
         }
 
         // POST: DoctorApmController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(DoctorUpdateDto doctorUpdateDto)
         {
+            BaseModel model = new();
+
             try
             {
+                string baseUrl = "http://localhost:5289/api/";
+
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(baseUrl);
+
+                    var responseTask = await client.PutAsJsonAsync<DoctorUpdateDto>("Doctors/UpdateDoctor", doctorUpdateDto);
+
+                    if (responseTask.IsSuccessStatusCode)
+                    {
+                        string response = await responseTask.Content.ReadAsStringAsync();
+
+                        model = JsonConvert.DeserializeObject<BaseModel>(response)!;
+
+
+
+                        if (!model.IsSuccess)
+                        {
+                            ViewBag.Message(model.Message);
+                            return View();
+                        }
+
+                    }
+                    else
+                    {
+                        return View();
+                    }
+
+                }
+
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
                 return View();
             }
