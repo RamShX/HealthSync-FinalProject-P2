@@ -2,7 +2,6 @@
 using HealtSync.Application.Contracts.Users;
 using HealtSync.Application.DtoMapingServices.Users;
 using HealtSync.Application.Dtos.Users.Doctors;
-using HealtSync.Application.Response.Users.Employees;
 using HealtSync.Application.Response.Users.Users;
 using HealtSync.Domain.Entities.Users;
 using HealtSync.Persistence.Interfaces.Users;

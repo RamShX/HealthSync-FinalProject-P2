@@ -1,5 +1,6 @@
 ﻿using HealtSync.Application.Dtos.Users.Doctors;
 using HealtSync.Web.Models;
+using HealtSync.Web.Models.Users.Doctors;
 
 namespace HealtSync.Web.Services.Users
 {
@@ -7,8 +8,8 @@ namespace HealtSync.Web.Services.Users
     {
         Task<DoctorGetAllResultModel> GetDoctors();
         Task<DoctorGetByIdResultModel> GetDoctorGetById(int id);
-        Task<BaseModel> SaveDoctor(DoctorSaveDto doctorSaveDto);
-        Task<BaseModel> UpdateDoctor(DoctorUpdateDto doctorUpdateDto);
-        Task<BaseModel> DisableDoctor(int id);
+        Task<BaseResponseModel> SaveDoctor(DoctorSaveDto doctorSaveDto);
+        Task<BaseResponseModel> UpdateDoctor(DoctorUpdateDto doctorUpdateDto);
+        Task<BaseResponseModel> DisableDoctor(int id);
     }
 }

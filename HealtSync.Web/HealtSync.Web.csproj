@@ -15,4 +15,8 @@
     <ProjectReference Include="..\HealtSync.IOC\HealtSync.IOC.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\Users\Employees\" />
+  </ItemGroup>
+
 </Project>

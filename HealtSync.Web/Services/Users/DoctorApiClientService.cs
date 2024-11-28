@@ -1,6 +1,7 @@
 ﻿using HealtSync.Application.Core;
 using HealtSync.Application.Dtos.Users.Doctors;
 using HealtSync.Web.Models;
+using HealtSync.Web.Models.Users.Doctors;
 using HealtSync.Web.Services.Base;
 
 namespace HealtSync.Web.Services.Users
@@ -51,13 +52,13 @@ namespace HealtSync.Web.Services.Users
             return doctorGetByIdResultModel;
         }
 
-        public async Task<BaseModel> SaveDoctor(DoctorSaveDto doctorSaveDto)
+        public async Task<BaseResponseModel> SaveDoctor(DoctorSaveDto doctorSaveDto)
         {
-            BaseModel responseModel = new();
+            BaseResponseModel responseModel = new();
 
             try
             {
-                responseModel = await _httpService.PostAsync<BaseModel, DoctorSaveDto>("Doctors/SaveDoctor", doctorSaveDto);
+                responseModel = await _httpService.PostAsync<BaseResponseModel, DoctorSaveDto>("Doctors/SaveDoctor", doctorSaveDto);
             }
             catch (Exception ex)
             {
@@ -69,14 +70,14 @@ namespace HealtSync.Web.Services.Users
             return responseModel;
         }
 
-        public async Task<BaseModel> UpdateDoctor(DoctorUpdateDto doctorUpdateDto)
+        public async Task<BaseResponseModel> UpdateDoctor(DoctorUpdateDto doctorUpdateDto)
         {
 
-            BaseModel responseModel = new();
+            BaseResponseModel responseModel = new();
 
             try
             {
-                responseModel = await _httpService.PutAsync<BaseModel, DoctorUpdateDto>("Doctors/UpdateDoctor", doctorUpdateDto);
+                responseModel = await _httpService.PutAsync<BaseResponseModel, DoctorUpdateDto>("Doctors/UpdateDoctor", doctorUpdateDto);
             }
             catch (Exception ex)
             {
@@ -90,7 +91,7 @@ namespace HealtSync.Web.Services.Users
         }
 
 
-        public Task<BaseModel> DisableDoctor(int id)
+        public Task<BaseResponseModel> DisableDoctor(int id)
         {
             throw new NotImplementedException();
         }

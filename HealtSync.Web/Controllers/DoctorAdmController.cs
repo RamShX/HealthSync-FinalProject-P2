@@ -1,5 +1,6 @@
 ﻿using HealtSync.Application.Dtos.Users.Doctors;
 using HealtSync.Web.Models;
+using HealtSync.Web.Models.Users.Doctors;
 using HealtSync.Web.Services.Users;
 using Humanizer;
 using Microsoft.AspNetCore.Http;
@@ -46,7 +47,7 @@ namespace HealtSync.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(DoctorSaveDto doctorSaveDto)
         {
-            BaseModel model = await _doctorClientService.SaveDoctor(doctorSaveDto);
+            BaseResponseModel model = await _doctorClientService.SaveDoctor(doctorSaveDto);
 
             return model.IsSuccess ? RedirectToAction(nameof(Index)) : View();
         }
@@ -62,7 +63,7 @@ namespace HealtSync.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(DoctorUpdateDto doctorUpdateDto)
         {
-            BaseModel model = new();
+            BaseResponseModel model = new();
 
             _doctorClientService.UpdateDoctor(doctorUpdateDto);
 

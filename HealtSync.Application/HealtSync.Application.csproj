@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Dtos\Medical\" />
-    <Folder Include="Dtos\Appoiments\" />
     <Folder Include="Dtos\Insurance\" />
     <Folder Include="Dtos\System\" />
   </ItemGroup>
