@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 namespace HealtSync.Persistence.Repositories.Appointments
 {
     public sealed class AppointmentRepository(HealtSyncContext healtSyncContext, 
-     ILogger<AppointmentRepository> logger) :BaseRepository<Appointment>(healtSyncContext), IAppointments
+     ILogger<AppointmentRepository> logger) :BaseRepository<Appointment>(healtSyncContext), IAppoimentsRepository
     {
         private readonly ILogger<AppointmentRepository> logger = logger;
         private readonly HealtSyncContext _healtSyncContext = healtSyncContext;

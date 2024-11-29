@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using HealtSync.Application.Base;
+using HealtSync.Application.Dtos.Appoiments.Appoiments;
+using HealtSync.Application.Response.Appoiments;
 
 namespace HealtSync.Application.Contracts.Appoiments
 {
-    internal interface IAppoimentsService
+    public interface IAppoimentsService : IBaseService<AppoimentResponse, AppoimentSaveDto, AppoimentUpdateDto>
     {
+
     }
 }
